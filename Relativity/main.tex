@@ -103,12 +103,16 @@
       &= \frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}} \\
   \end{aligned}
   $$
-  ここで$\gamma = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}$とおくと
+  ここで
+  $$
+  \gamma \coloneqq \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}
+  $$
+  を導入すると
   $$
   p = \gamma mv
   $$
   となる。これが特殊相対性理論に基づく運動量の定義である。
-  また、エネルギー$E$を以下のように定義する。
+  また、エネルギー$E$を以下のように定義すると以下のようになる.
   $$
   \begin{aligned}
     E &= \gamma mc^2 \\
@@ -116,7 +120,6 @@
       &= \sqrt{m^2 c^4 + p^2 c^2} \\
   \end{aligned}
   $$
-  となる。
   一般的に両辺を二乗して
   $$
   E^2 = m^2 c^4 + p^2 c^2
@@ -132,20 +135,9 @@
   $$
   となる。これが有名なアインシュタインの質量エネルギー等価の式である。
   memo:
-  この時Hamiltonianは
+  この時Hamiltonianはラグランジアンが時間に依存しない場合に
   $$
   H = pv - L
   $$
-  で定義されるので
-  $$
-  \begin{aligned}
-    H &= \frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}} v - \left(-mc^2 \sqrt{1 - \frac{v^2}{c^2}}\right) \\
-      &= \frac{mv^2}{\sqrt{1 - \frac{v^2}{c^2}}} + mc^2 \sqrt{1 - \frac{v^2}{c^2}} \\
-      &= \frac{mc^2 v^2 + mc^2 (1 - \frac{v^2}{c^2})}{\sqrt{1 - \frac{v^2}{c^2}}} \\
-      &= \frac{mc^2 (v^2 + 1 - \frac{v^2}{c^2})}{\sqrt{1 - \frac{v^2}{c^2}}} \\
-      &= \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}} \\
-      &= \gamma mc^2 \\
-  \end{aligned}
-  $$
-  となり、エネルギーと一致する。
+  と定義され、$H=E$が成り立つ。
 \end{document}
