@@ -13,7 +13,7 @@
 \usepackage[capitalise,noabbrev]{cleveref}
 
 
-\title{相対性理論とその運動方程式への応用}
+\title{相対性理論とその運動量の導出}
 
 \geometry{margin=25mm}
 \setstretch{1.2}
@@ -24,7 +24,7 @@
 \begin{document}
   \maketitle
   \section*{はじめに}
-  本稿の目的は格子QCDを実装するために、学んでいくものの一つのQCDのラグランジアンを定義する過程において、シュレディンガー方程式を相対論的に拡張したクライン・ゴルドン方程式およびディラック方程式を導出する必要があり、そのために必要な知識である特殊相対性理論上の運動方程式を導出することである。
+  本稿の目的は格子QCDを実装するために、学んでいくものの一つのQCDのラグランジアンを定義する過程において、シュレディンガー方程式を相対論的に拡張したクライン・ゴルドン方程式およびディラック方程式を導出する必要があり、そのために必要な知識である特殊相対性理論上の運動量を導出することである。
 
   \section{導出の直感}
   \begin{enumerate}
@@ -108,4 +108,44 @@
   p = \gamma mv
   $$
   となる。これが特殊相対性理論に基づく運動量の定義である。
+  また、エネルギー$E$を以下のように定義する。
+  $$
+  \begin{aligned}
+    E &= \gamma mc^2 \\
+      &= \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \sqrt{m^2 c^4 + p^2 c^2} \\
+  \end{aligned}
+  $$
+  となる。
+  一般的に両辺を二乗して
+  $$
+  E^2 = m^2 c^4 + p^2 c^2
+  $$
+  や
+  $$
+  E^2 = (pc)^2 + (mc^2)^2
+  $$
+  と表されることが多い。
+  また、完全に静止した場合($v=0$)には
+  $$
+  E = mc^2
+  $$
+  となる。これが有名なアインシュタインの質量エネルギー等価の式である。
+  memo:
+  この時Hamiltonianは
+  $$
+  H = pv - L
+  $$
+  で定義されるので
+  $$
+  \begin{aligned}
+    H &= \frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}} v - \left(-mc^2 \sqrt{1 - \frac{v^2}{c^2}}\right) \\
+      &= \frac{mv^2}{\sqrt{1 - \frac{v^2}{c^2}}} + mc^2 \sqrt{1 - \frac{v^2}{c^2}} \\
+      &= \frac{mc^2 v^2 + mc^2 (1 - \frac{v^2}{c^2})}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \frac{mc^2 (v^2 + 1 - \frac{v^2}{c^2})}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \gamma mc^2 \\
+  \end{aligned}
+  $$
+  となり、エネルギーと一致する。
 \end{document}
