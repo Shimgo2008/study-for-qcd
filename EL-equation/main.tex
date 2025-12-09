@@ -1,0 +1,137 @@
+%期間 1.5week
+\documentclass[a4paper,12pt]{article}
+
+% --- 基本パッケージ ---
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{setspace}
+
+% --- 単位と参照のパッケージ ---
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+
+\title{オイラー=ラグランジュの運動方程式について}
+
+\geometry{margin=25mm}
+\setstretch{1.2}
+
+\author{しん}
+\date{\today}
+
+\begin{document}
+  \maketitle
+  \section*{はじめに}
+  本稿の目的は格子QCDを再現するために、学んでいくものの一つとして、ラグランジアンというものに触れたが、それ自身の中核をなすオイラー=ラグランジュの運動方程式を理解していなかったため、それの導出をすることである。
+
+  \section{汎函数}
+  汎函数とは関数空間$\mathrm{C}^n$から0階テンソルに対する写像として定義される
+  $$
+  S[u]: \mathrm{C}^n \to \mathbb{C} \text{or} \mathbb{R}
+  $$
+
+  note:関数を引数にとって、数値を返す関数全般のこと
+
+  汎函数の微分は以下のように定義される
+  $$
+  \begin{aligned}
+    \delta S[u;h] &:= \lim_{\epsilon \to 0}\frac{S[u + \epsilon h] - S[u]}{\epsilon}\\
+    &=\frac{d}{d\epsilon}S[u + \epsilon h]\big|_{\epsilon=0}\\
+  \end{aligned}
+  $$
+
+  ここで用いられる$\lim_{\epsilon \to 0}\frac{S[u + \epsilon h] - S[u]}{\epsilon}$は、方向微分のエッセンスでできていて、Gâteau微分(ガトー微分)を用いている。\\
+  note: 関数空間などの、多次元空間の微分について考える時、従来の全微分や偏微分について考えることが難しい(無限回の操作や無限個の定数が必要になる)。そのため、ガトー微分では、ある特定の方向への変化に注目し、その方向を含む平面（2次元グラフ）における微分を考えることで、この問題を回避している。
+
+  \vspace{5em}
+
+  \section{EL-equation}
+
+  作用汎函数$\mathrm{S}$と、その関数$\mathcal{L}$は以下のように定義される
+  $$
+  S[\mathcal{L}]: \mathrm{C}^n \to \mathbb{C}
+  \quad (n \geq 1)
+  $$
+  $$
+  \begin{aligned}
+    \mathcal{L}: \mathbb{R}^{f} \times \mathbb{R}^{fd} \times \mathbb{R}^{d} \to \mathbb{R}\\
+    \left(v_{i}, m_{i, \mu}, x\right) \mapsto \mathcal{L}\left(v_{i}, m_{i, \mu}, x\right)
+  \end{aligned}
+  $$
+
+  最小作用の原理によって以下の式が与えられる。
+  $$
+  S[\mathcal{L}] = \int_{\Omega}\mathcal{L}(u, \partial{u}, x)dx
+  $$
+
+  EL方程式とは適当な境界条件の下で汎関数の停留条件$\delta S[u]= 0$から導かれる方程式である。\\
+  停留条件を満たす解を$u=\bar{u}(x)$とおく、積分領域$\Omega$の境界$\partial \Omega$でのみ$0$となる$\eta(x)$を定義する。
+  $$
+  \eta(x) = 0 \quad (x\in\partial\Omega),
+  $$
+
+
+  この時、停留条件は$S[u_{\epsilon}]$が$\epsilon$について極値をとることと同値であり、以下のように表される。
+  $$
+  \begin{aligned}
+  \frac{d}{d\epsilon}S[u_{\epsilon};\eta] &= \frac{d}{d\epsilon}S[\bar{u}(x) + \epsilon \eta(x)]\big|_{\epsilon=0}\\
+  &= 0
+  \end{aligned}
+  $$
+  $\eta(x)$ は $\Omega$ の内部で任意の滑らかな関数とする。
+
+  $u$を微小変化させた関数$u_{\epsilon}(x)$は以下のように定義される。
+  $$
+  u_{\epsilon}(x) = \bar{u}(x) + \epsilon \eta(x)
+  $$
+
+  実際に$\frac{d}{d\epsilon}S[u_{\epsilon};\eta]$の微分を連鎖率を用いて計算する。
+  $$
+  \begin{aligned}
+  \frac{d}{d\epsilon}S[u_{\epsilon};\eta] &= \frac{d}{d\epsilon}\int_{\Omega} \mathcal{L}(u_{\epsilon}(x), \partial u_{\epsilon}(x), x) dx \big|_{\epsilon=0}\\
+  &= \frac{d}{d\epsilon}\int_{\Omega} \mathcal{L}(\bar{u} + \epsilon \eta(x), \partial \bar{u} + \epsilon \partial \eta(x), x) dx \big|_{\epsilon=0}\\
+  &= \int_{\Omega} \left\{\frac{\partial \mathcal{L}}{\partial v_i}(u_\epsilon, \partial u_\epsilon, x) \eta_i(x) + \frac{\partial\mathcal{L}}{\partial m_{i, \mu}} \frac{\partial \eta_i}{\partial x^\mu} \right\}dx \big|_{\epsilon=0}\\
+  &=0
+  \end{aligned}
+  $$
+
+  $\eta_i(x)$は境界で0になるので、$\eta_i(x)$で括り出すために第二項で部分積分を行う。\\
+  note: これするともう片方の項に微分を押し付けられるから便利
+  $$
+  A_{i, \mu}(x) := \frac{\partial \mathcal{L}}{\partial m_{i, \mu}}(u_\epsilon, \partial u_\epsilon, x)
+  $$
+  $$
+  \partial_\mu := \frac{\partial}{\partial x^\mu}
+  $$
+  $$
+  \begin{aligned}
+    \int_{\Omega} A_{i, \mu}(x) \partial_\mu \eta_i(x) dx &= \left[A_{i, \mu}(x) \eta_i(x)\right]_{\partial \Omega} - \int_{\Omega} \eta_i(x) \partial_\mu A_{i, \mu}(x) dx\\
+    &= 0 - \int_{\Omega} \eta_i(x) \frac{\partial}{\partial x^\mu} \left(\frac{\partial \mathcal{L}}{\partial m_{i, \mu}}(u_\epsilon, \partial u_\epsilon, x)\right) dx\\
+    &= - \int_{\Omega} \eta_i(x) \frac{\partial}{\partial x^\mu} \left(\frac{\partial \mathcal{L}}{\partial m_{i, \mu}}(u_\epsilon, \partial u_\epsilon, x)\right) dx
+  \end{aligned}
+  $$
+
+  よって、$\frac{d}{d\epsilon}S[u_{\epsilon};\eta]$は以下のように表される。
+
+  $$
+  \begin{aligned}
+    \frac{d}{d\epsilon}S[u_{\epsilon};\eta] &= \int_{\Omega} \eta_i(x) \left\{\frac{\partial \mathcal{L}}{\partial v_i}(u_\epsilon, \partial u_\epsilon, x) - \frac{\partial}{\partial x^\mu} \left(\frac{\partial \mathcal{L}}{\partial m_{i, \mu}}(u_\epsilon, \partial u_\epsilon, x)\right)\right\} dx\\
+    &=0
+  \end{aligned}
+  $$
+
+  今まで$\eta_i(x)$を境界で$0$になる関数として定義して進めてきたが、本来は任意の関数である。よって、上式が任意の$\eta_i(x)$であっても成り立つためには、$\left\{ \cdot \right\}$が$0$であることを示せばよい。\\
+  以上より、オイラー=ラグランジュの運動方程式は以下のように表される。
+  $$
+  \frac{\partial \mathcal{L}}{\partial v_i}(u(x), \partial u(x), x) - \frac{\partial}{\partial x^\mu} \left(\frac{\partial \mathcal{L}}{\partial m_{i, \mu}}(u(x), \partial u(x), x)\right) = 0
+  $$
+
+  引数を省略して、以下のように表されることが多い。
+  $$
+  \frac{\partial \mathcal{L}}{\partial u_i} - \frac{\partial}{\partial x^\mu} \frac{\partial \mathcal{L}}{\partial (\partial_\mu u_i)} = 0
+  $$
+
+
+\end{document}
