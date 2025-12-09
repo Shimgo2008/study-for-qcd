@@ -1,0 +1,143 @@
+%期間 1day
+\documentclass[a4paper,12pt]{article}
+
+% --- 基本パッケージ ---
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{setspace}
+
+% --- 単位と参照のパッケージ ---
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+
+\title{相対性理論とその運動量の導出}
+
+\geometry{margin=25mm}
+\setstretch{1.2}
+
+\author{しん}
+\date{\today}
+
+\begin{document}
+  \maketitle
+  \section*{はじめに}
+  本稿の目的は格子QCDを実装するために、学んでいくものの一つのQCDのラグランジアンを定義する過程において、シュレディンガー方程式を相対論的に拡張したクライン・ゴルドン方程式およびディラック方程式を導出する必要があり、そのために必要な知識である特殊相対性理論上の運動量を導出することである。
+
+  \section{導出の直感}
+  \begin{enumerate}
+    \item まず幾何学的に距離を求める操作であると定義して、\\
+    \item 距離を求める空間を$ds^2 = c^2 dt^2 - dx^2 - dy^2 - dz^2$であるというように定義する(別の実験参照)\\
+    \item これに基づいて代入し、それの積分の形から、当てはまる場所を時間依存(dt)のラグランジアンとして持ってくる\\
+    \item それをEOMにぶち込んで$p=\frac{\partial L}{\partial v}$にもって行く\\
+    \item 実際に計算して$ p = \frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}} $を得る。\\
+    \item $\frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}}$は$\frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}mv$であり、$\frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} = \gamma$とすることによって、$p=\gamma mv$を得られる\\
+  \end{enumerate}
+  \section{導出の詳細}
+  始めに: この項では、ライプニッツの記号法を用いているが、$\frac{dp}{dt}$をそのまま割り算として使うとかいうくっっっそきしょいことはしたくないんだけど、慣習として致し方なく使っている。\\
+  最小作用の原理に基づき、作用$S$を以下のように定義する。
+  note: ニュートン力学と次数と符号を合わせるために$-mc$を前に付けている。
+  $$
+  \begin{aligned}
+    S &= -mc \int ds \\
+    &= -mc \int \frac{ds}{dt} dt \\
+  \end{aligned}
+  $$
+
+  ここで、$ds$は時空間における微小な距離であり、特殊相対性理論に基づき以下のように定義される。
+  $$
+  ds^2 = c^2 dt^2 - dx^2 - dy^2 - dz^2
+  $$
+  note:
+  両辺を$dt^2$で割ると、
+  $$
+  \frac{ds^2}{dt^2} = c^2 - \left(\frac{dx}{dt}\right)^2 - \left(\frac{dy}{dt}\right)^2 - \left(\frac{dz}{dt}\right)^2
+  $$
+  ここで各方向への微小変化の時間変化率をそれぞれ速度成分と見なしvとおくことで、
+  $$
+  v^2 = \left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2 + \left(\frac{dz}{dt}\right)^2
+  $$
+  $$
+  \begin{aligned}
+    \left(\frac{ds}{dt}\right)^2 &= c^2 - v^2\\
+    \frac{ds}{dt} &= \sqrt{c^2 - v^2} \\
+  \end{aligned}
+  $$
+
+  従って$ds$に対する積分は以下のように書き換えられる。
+  $$
+  \begin{aligned}
+    S &= -mc \int \frac{ds}{dt} dt \\
+      &= -mc \int \sqrt{c^2 - v^2} dt \\
+      &= -mc^2 \int \sqrt{1 - \frac{v^2}{c^2}} dt \\
+  \end{aligned}
+  $$
+
+  ここでこの式を幾何学的かつ積分を総和としてみたとき、以下のように考えられる
+  $$
+    \int\text{縦} \times \text{横}
+  $$
+  $$
+  S = \int (-mc) \times ds
+  $$
+  ここに先の値を代入し
+  $$
+  S = \int (-mc^2 \sqrt{1 - \frac{v^2}{c^2}}) dt
+  $$
+  これをラグランジアン$L$として定義すると
+  $$
+  L = -mc^2 \sqrt{1 - \frac{v^2}{c^2}}
+  $$
+  となる。ここで運動量$p$を以下のように定義する。
+  $$
+  p = \frac{\partial L}{\partial v}
+  $$
+  これを計算すると
+  $$
+  \begin{aligned}
+    p &= \frac{\partial }{\partial v} \left(-mc^2 \sqrt{1 - \frac{v^2}{c^2}}\right) \\
+      &= -mc^2 \cdot \frac{1}{2\sqrt{1 - \frac{v^2}{c^2}}} \cdot \left(-\frac{2v}{c^2}\right) \\
+      &= \frac{mc^2 v}{c^2 \sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \frac{mv}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+  \end{aligned}
+  $$
+  ここで
+  $$
+  \gamma \coloneqq \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}
+  $$
+  を導入すると
+  $$
+  p = \gamma mv
+  $$
+  となる。これが特殊相対性理論に基づく運動量の定義である。
+  また、エネルギー$E$を以下のように定義すると以下のようになる.
+  $$
+  \begin{aligned}
+    E &= \gamma mc^2 \\
+      &= \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}} \\
+      &= \sqrt{m^2 c^4 + p^2 c^2} \\
+  \end{aligned}
+  $$
+  一般的に両辺を二乗して
+  $$
+  E^2 = m^2 c^4 + p^2 c^2
+  $$
+  や
+  $$
+  E^2 = (pc)^2 + (mc^2)^2
+  $$
+  と表されることが多い。
+  また、完全に静止した場合($v=0$)には
+  $$
+  E = mc^2
+  $$
+  となる。これが有名なアインシュタインの質量エネルギー等価の式である。
+  memo:
+  この時Hamiltonianはラグランジアンが時間に依存しない場合に
+  $$
+  H = pv - L
+  $$
+  と定義され、$H=E$が成り立つ。
+\end{document}
