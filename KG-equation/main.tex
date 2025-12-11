@@ -2,7 +2,6 @@
 \documentclass[a4paper,12pt]{article}
 
 % --- 基本パッケージ ---
-
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{geometry}
@@ -12,192 +11,267 @@
 \usepackage{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
 
-
-\title{シュレディンガー方程式の導出と、クライン=ゴートン方程式への拡張}
-
+% --- ページ設定 ---
 \geometry{margin=25mm}
 \setstretch{1.2}
 
+\title{シュレディンガー方程式の導出とクライン=ゴルドン方程式への拡張}
 \author{しん}
 \date{\today}
 
 \begin{document}
   \maketitle
+
   \section*{はじめに}
-  本稿の目的は格子QCDを実装するために、学んでいくものの一つであるQCDのラグランジアンを定義する過程において、シュレディンガー方程式を相対論的に拡張したクライン・ゴルドン方程式およびディラック方程式を導出することである。\\
-  まずはシュレディンガー方程式を導出し、その後クライン・ゴルドン方程式を導出する。ディラック方程式の導出は本稿では扱わない。\\
-  本稿では
+  本稿の目的は、格子QCDを実装するために学ぶ過程として、シュレディンガー方程式を相対論的に拡張したクライン・ゴルドン方程式およびディラック方程式を導出することである。  
+
+  まずはシュレディンガー方程式を導出し、その後クライン・ゴルドン方程式を導出する。ディラック方程式の導出は本稿では扱わない。  
+
+  本稿では以下の条件で進める : 
   \begin{itemize}
-    \item 自然単位系$\hbar = c = 1$を用いない。\\
-    \item 物理的な直感であるド・ブロイ波や、量子力学の基本的な公理は用いず、Stoneの定理を用いて厳密に導出する。
-    \item シュレディンガー方程式の導出においては、古典力学のハミルトニアンを用いる。
-    \item クライン・ゴルドン方程式の導出においては、相対論的ハミルトニアンを用いる。
+      \item 自然単位系 $\hbar = c = 1$ は用いない。
+      \item 物理的直感（ド・ブロイ波など）や量子力学の基本公理は使わず、Stoneの定理を用いて厳密に導出する。
+      \item シュレディンガー方程式の導出には古典力学のハミルトニアンを用いる。
+      \item クライン・ゴルドン方程式の導出には相対論的ハミルトニアンを用いる。
   \end{itemize}
 
-  正直、$\psi$の関数を仮定する方法の方が直感的で分かりやすいとは思うんだけど、数学的に定義した方が気持ちいいでしょ？\\
-
+  直感的には $\psi$ の関数を仮定する方法が分かりやすいが、数学的定義の方が厳密である。
 
   \section{導出の直感}
-  今回の要請: 【量子状態の時間発展が連続である】\\
+  今回の要請は「量子状態の時間発展が連続であること」である。
+
   \begin{enumerate}
-    \item 量子空間状態を複素ヒルベルト空間$\mathcal{H}$とする
-    \item $\Psi(t)$を量子状態とする
-    \item 量子状態の時間発展を表す演算子$U(\epsilon)$を定義する
-    \item $\Psi(t)$の時間微分の責務を$U(\epsilon)$に丸投げする
-    \item $U(\epsilon)$が満たすべき物理的制約を考える
-    \item Stoneの定理を用いて、$U(\epsilon)$を自己共役演算子$A$を用いて表現する
-    \item $U(\epsilon)$の微小変化を考え、$\Psi(t)$の時間発展を微分方程式として表現する
+    \item 量子状態空間を複素ヒルベルト空間 $\mathcal{H}$ とする。
+    \item $\Psi(t)$ を量子状態とする。
+    \item 量子状態の時間発展を表す演算子 $U(\epsilon)$ を定義する。
+    \item $\Psi(t)$ の時間微分の責務を $U(\epsilon)$ に任せる。
+    \item $U(\epsilon)$ が満たすべき物理的制約を考える。
+    \item Stoneの定理を用いて $U(\epsilon)$ を自己共役演算子 $A$ を用いて表現する。
+    \item $U(\epsilon)$ の微小変化を考え、$\Psi(t)$ の時間発展を微分方程式として表す。
     \item $A$をお好みのハミルトニアン$H$に置き換える。
-    \item 古典力学のハミルトニアンの場合: シュレディンガー方程式を得る
-    \item 相対論的ハミルトニアンの場合: クライン=ゴートン方程式を得る
+    \item 古典ハミルトニアンの場合はシュレディンガー方程式を得る。
+    \item 相対論的ハミルトニアンの場合はクライン=ゴルドン方程式を得る。
   \end{enumerate}
 
   \section{雛形となる微分方程式の導出}
-  \subsection{初めに}
-  以下、量子空間状態を複素ヒルベルト空間$\mathcal{H}$とする。\\
-  $\Psi(t)$は$\mathcal{H}$のただ一つの元(集合の要素)であり、
-  $$
-  \Psi(t) \in \mathcal{H}
-  $$
-  $U$を時間発展演算子とし、以下の写像であるとする。
-  $$
-  U(\epsilon): \mathcal{H} \rightarrow \mathcal{H}
-  $$
-  またこの二つの関係性は以下のように表される。
-  $$
-  \Psi(t + \epsilon) = U(\epsilon)\Psi(t)
-  $$
 
-  よって目標は時間発展演算子$U(t)$を用いて、$\Psi(t)$の時間発展を記述することとする。\\
+  \subsection{初めに}
+  量子状態空間を複素ヒルベルト空間 $\mathcal{H}$ とする。$\Psi(t)$ は $\mathcal{H}$ の元であり、
+  \[
+  \Psi(t) \in \mathcal{H}.
+  \]
+  時間発展演算子 $U$ を
+  \[
+  U(\epsilon): \mathcal{H} \rightarrow \mathcal{H}
+  \]
+  とする。量子状態の時間発展は
+  \[
+  \Psi(t + \epsilon) = U(\epsilon)\Psi(t)
+  \]
+  で表される。
 
   \subsection{時間発展演算子の性質}
-  ここで$U(\epsilon)$は物理的な制約により、以下の性質を満たす。
+  memo: $U(\epsilon)$ は物理的制約により以下を満たす
   \begin{enumerate}
-    \item $U(\epsilon)$は線形である。\\時間が非線形に変化することはないため
-    \item $U(\epsilon)$はユニタリである。\\全確率を正規化すると$\left|\left|\Psi\right|\right|^2$と表すことができ、これは常に$1$である。
-    \item $U(\epsilon)$は1パラメータ群を成す。\\時間発展は連続的であるため(e.g., $U(t_0)U(t_1) = U(t_0+t_1)$)
+    \item 線形性 : 時間が非線形に変化することはない。
+    \item ユニタリ性 : 全確率を正規化すると $\|\Psi\|^2 = 1$。
+    \item 1パラメータ群 : 時間発展は連続的であり、$U(t_0)U(t_1) = U(t_0+t_1)$。
   \end{enumerate}
+  これがいわゆる強連続な1パラメータユニタリ群である。
 
-  以上の条件を満たす$U(\epsilon)$のことをユニタリ演算子と呼ぶ。\\
-  また、$U(0)$に関しては、時間が進んでいないことを意味するので、単位作用素$I$に等しい。
-  $$
-  U(0) = I\\
-  $$
-  $$
-  I = \left(\begin{array}{cc}
-    1 & 0 \\
-    0 & 1
-  \end{array}\right)
-  $$
-  また、$U(\epsilon)$は1パラメータ群を成すので、以下の関係式が成り立つ。
-  $$
-  U(\epsilon) = U(0) + \frac{dU}{d\epsilon}\epsilon + O(\epsilon^2)
-  $$
 
-  さらに、$U(\epsilon)$は連続的な時間発展を表す “ユニタリ作用素の族” であるため、Stoneの定理を適用できる。\\
-  Stoneの定理によれば、強連続(微小変化に対して連続的に変化する)な1パラメータユニタリ群$U(\epsilon)$に対して、エルミート演算子$A$が存在し、以下の関係式が成り立つ。
+  さらに $U(0)$ は単位作用素 $I$ に等しい : 
+  \[
+  U(0) = I \ \text{e.g.,} \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}.
+  \]
 
-  ここで、$A$は自己共役演算子であるため、以下の性質を満たす
+  Stoneの定理により、強連続な1パラメータユニタリ群 $U(\epsilon)$ に対して、自己共役演算子 $A$ が存在し、以下のように記される。
+  \[
+  U(\epsilon) = e^{-i\epsilon A}.
+  \]
+  この時、$A$は時間発展の生成子と呼ばれる。\\
+  memo: Stoneの定理とは、強連続な1パラメータユニタリ群は必ず自己共役演算子を生成子として持つ、という定理である。\\
+  memo: $A$は自己共役演算子であるため、以下の性質を満たす
   \begin{enumerate}
     \item $A = A^\dagger$ (自己共役)
     \item $A$の固有値は実数
     \item $A$の固有ベクトルは直交する
   \end{enumerate}
-
-  $$
-  U(\epsilon) = e^{-i\epsilon A}
-  $$
-
-  ここで、$U(\epsilon)$の微小変化を考えると、テイラー展開により以下のように表される。
-  $$
-  U(\epsilon) = \lim_{\epsilon \to 0} I - iA\epsilon + \frac{(-iA)^2}{2!}\epsilon^2 + ...
-  $$
-  この時、第3項以降は2次以上の微小項となり、これらの総和はまとめて無視できるほど小さいと言うことを、ランダウの記法で
-  $$
-  f(\epsilon) = O(\epsilon^2) (\epsilon \to 0)
-  $$
-  と表されるため、$U$の微小変化は以下のように簡略化できる。
-  $$
-  U(\epsilon) = I - iA\epsilon + O(\epsilon^2)
-  $$
+  テイラー展開すると微小変化は
+  \[
+  U(\epsilon) = I - i A \epsilon + O(\epsilon^2)
+  \]
+  と簡略化できる。\\
 
   \subsection{微分方程式の導出}
-  さて、最初の時間発展の式に戻ると、
-  $$
-  \Psi(t + \epsilon) = U(\epsilon)\Psi(t)
-  $$
-  であったので、これに上式を代入すると、
-  $$
-  \Psi(t + \epsilon) = \left(I - iA\epsilon + O(\epsilon^2)\right)\Psi(t)
-  $$
-  となる。ここで両辺から$\Psi(t)$を引き、
-  $$
-  \Psi(t + \epsilon) - \Psi(t) = \left(- iA\epsilon + O(\epsilon^2)\right)\Psi(t)
-  $$
-  と変形できる。両辺を$\epsilon$で割り、$\epsilon \to 0$の極限を取ると、以下の微分方程式が得られる。
-  $$
-  \frac{d}{dt}\Psi(t) = -iA\Psi(t)
-  $$
-  この時、$A$は自己共役演算子であったため、$-iA$は反自己共役演算子となる。\\
-  ここで、$A$とハミルトニアン$H$は$\hbar$で反比例する関係にあるため、
-  $$
+  量子状態の時間発展を表す式
+  \[
+  \begin{aligned}
+    \Psi(t + \epsilon) &= U(\epsilon)\Psi(t)\\
+    &= \big(I - i A \epsilon + O(\epsilon^2)\big) \Psi(t)
+  \end{aligned}
+  \]
+  の時間微分について考えたいが、時間に対する微分は $\Psi(t)$ に対して行うべきであり、$U(\epsilon)$ に対して行うべきではない。
+  そこで、$\Psi(t)$ の時間微分を $U(\epsilon)$ に任せることにする。すなわち、
+  \[
+  \begin{aligned}
+    \frac{\Psi(t + \epsilon) - \Psi(t)}{\epsilon} &= \frac{U(\epsilon) - I}{\epsilon} \Psi(t) - \frac{O(\epsilon^2)}{\epsilon} \Psi(t)\\
+  \end{aligned}
+  \]
+  が得られる。ここで $A$ とハミルトニアン $H$ は
+  \[
   A = \frac{H}{\hbar}
-  $$
-  と置いて、式を整理すると
-  $$
-  i\hbar\frac{d}{dt}\Psi(t) = H\Psi(t)
-  $$
-  となる。これが雛形となる微分方程式である。\\
+  \]
+  により対応し、整理すると
+  \[
+  i \hbar \frac{d}{dt} \Psi(t) = H \Psi(t)
+  \]
+  となる。
+
+  \section{正準交換関係と演算子の表現}
+  古典力学における位置 $x$ と運動量 $p$ は、量子力学においては演算子 $\hat{x}, \hat{p}$ となり、ハイゼンベルクの正準交換関係 (Canonical Commutation Relation, CCR)
+  \[
+  [\hat{x}, \hat{p}] = \hat{x}\hat{p} - \hat{p}\hat{x} = i\hbar I
+  \]
+  を満たすことが要請される（$I$ は恒等作用素）。
+
+  ここで、この交換関係を満たす演算子の具体的な表現形式が必要となる。\\
+  ストーン・フォン・ノイマンの定理 (Stone-von Neumann Theorem) によれば、有限次元の正準交換関係（厳密にはその指数形式であるワイルの関係式）を満たす既約なユニタリ表現は、ユニタリ同値を除いて一意に定まる。
+
+  この定理により、我々は最も一般的な「シュレディンガー表現」を採用することができる。
+  位置演算子 $\hat{x}$ を座標空間における掛け算演算子として対角化する表現をとると、
+  \[
+  \hat{x} \psi(x) = x \psi(x)
+  \]
+  となる。このとき、交換関係 $[\hat{x}, \hat{p}] = i\hbar$ を満たす運動量演算子 $\hat{p}$ の表現は、微分演算子として一意に定まる :
+  \[
+  \hat{p} = -i\hbar \frac{\partial}{\partial x}.
+  \]
+  
+  \begin{itemize}
+      \item \textbf{証明の概略} : 波動関数 $\psi(x)$ に対して $(\hat{x}\hat{p} - \hat{p}\hat{x})\psi = i\hbar \psi$ を満たす $\hat{p}$ を $\hat{p} = A \frac{\partial}{\partial x} + B$ の形で探索すると、係数が定まる。
+  \end{itemize}
+
+  これにより、ハミルトニアン $H$ を演算子化する準備が整った。
 
   \section{シュレディンガー方程式の導出}
-  さて、ここで$H$を古典力学のハミルトニアンに置き換える。\\
-  古典力学におけるハミルトニアン$H$は全エネルギー$E$を表し、運動エネルギー$K$とポテンシャルエネルギー$V$の和で表される。
-  $$
+  古典力学ハミルトニアン $H$ は全エネルギー $E$ として
+  \[
   H = K + V = \frac{p^2}{2m} + V(x)
-  $$
-  ここで、運動量演算子$\hat{p}$は以下のように定義される。
-  $$
-  \hat{p} = -i\hbar \frac{\partial}{\partial x}
-  $$
-  よって、ハミルトニアン演算子$\hat{H}$は以下のように表される。
-  $$
-  \hat{H} = \frac{\hat{p}^2}{2m} + V(x) = -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x)
-  $$
-  これを先ほどの微分方程式に代入すると、
-  $$
-  i\hbar\frac{\partial}{\partial t}\Psi(x,t) = \left(-\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x)\right)\Psi(x,t)
-  $$
-  となる。これがシュレディンガー方程式である。\\
+  \]
+  を持つ。運動量演算子は
+  \[
+  \hat{p} = - i \hbar \frac{\partial}{\partial x},
+  \]
+  よって
+  \[
+  \hat{H} = \frac{\hat{p}^2}{2m} + V(x) = -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x)
+  \]
+  となる。これを微分方程式に代入すると
+  \[
+  i \hbar \frac{\partial}{\partial t} \Psi(x,t) = \Big(-\frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x)\Big) \Psi(x,t)
+  \]
+  となる。これがシュレディンガー方程式である。
 
-  \section{クライン=ゴートン方程式の導出}
-  次に、$H$を相対論的ハミルトニアンに置き換える。\\
-  $$
-  H = \frac{mv^2}{\sqrt{1 - \frac{v^2}{c^2}}} + mc^2\sqrt{1 - \frac{v^2}{c^2}} = \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}}
-  $$
-  となる。ここで、特殊相対性理論のエネルギー・運動量関係式
-  $$
-  E^2 = p^2c^2 + m^2c^4
-  $$
-  を用いると、$H$は以下のように表される。
-  $$
-  H = \sqrt{p^2c^2 + m^2c^4}
-  $$
-  相対論的ハミルトニアン$H$は以下のように表される。
-  $$
-  H = \sqrt{p^2c^2 + m^2c^4}
-  $$
-  ここで、運動量演算子$\hat{p}$を先ほどと同様に定義し、ハミルトニアン演算子$\hat{H}$を以下のように表す。
-  $$
-  \hat{H} = \sqrt{\hat{p}^2c^2 + m^2c^4}
-  $$
-  これを先ほどの微分方程式に代入すると、
-  $$
-  i\hbar\frac{\partial}{\partial t}\Psi(x,t) = \sqrt{-\hbar^2c^2\frac{\partial^2}{\partial x^2} + m^2c^4}\Psi(x,t)
-  $$
-  となる。これを両辺2乗して整理すると、
-  $$
-  -\hbar^2\frac{\partial^2}{\partial t^2}\Psi(x,t) = \left(-\hbar^2c^2\frac{\partial^2}{\partial x^2} + m^2c^4\right)\Psi(x,t)
-  $$
-  となる。これがクライン=ゴートン方程式である。\\
+  \section{クライン=ゴルドン方程式の導出}
+  相対論的ハミルトニアン $H$ は全エネルギー $E$ として
+  \[
+  H = \sqrt{p^2 c^2 + m^2 c^4}
+  \]
+  を持つ。運動量演算子は
+  \[
+  \hat{p} = - i \hbar \frac{\partial}{\partial x},
+  \]
+  よって
+  \[
+  \hat{H} = \sqrt{\hat{p}^2 c^2 + m^2 c^4} = \sqrt{- \hbar^2 c^2 \frac{\partial^2}{\partial x^2} + m^2 c^4}
+  \]
+  となる。
+  \begin{quote}
+    \item 根号付き演算子の定義について\\
+    \ \ \ 根号付き演算子 $\sqrt{A}$ は定義が難しい。一般に、自己共役演算子 $A$ に対して、スペクトル分解を用いて定義されるが、ここでは詳細を省略する。\\
+    また、定義が複雑なため、一般には付録に示している $E^2 = p^2c^2 + m^2c^4$ を直接置換する方法が一般的である。
+  \end{quote}
+  これを微分方程式に代入すると
+  \[
+  i \hbar \frac{\partial}{\partial t} \Psi(x,t) = \sqrt{- \hbar^2 c^2 \frac{\partial^2}{\partial x^2} + m^2 c^4} \Psi(x,t)
+  \]
+  となる。
+  ここで、根号を外すために両辺を2乗すると
+  \[
+  \big(i \hbar \frac{\partial}{\partial t}\big)^2 \Psi = \big(-i \hbar \frac{\partial}{\partial x}\big)^2 c^2 \Psi + m^2 c^4 \Psi
+  \]
+  が得られる。これを上記の式に代入すると
+  \[
+  - \hbar^2 \frac{\partial^2}{\partial t^2} \Psi = - \hbar^2 c^2 \frac{\partial^2}{\partial x^2} \Psi + m^2 c^4 \Psi
+  \]
+  となり、整理すると
+  \[
+  \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \Psi - \frac{\partial^2}{\partial x^2} \Psi + \frac{m^2 c^2}{\hbar^2} \Psi = 0
+  \]
+  となる。これがクライン=ゴルドン方程式である。
+  ここでダランベルシアン $\Box$ を以下のように定義する
+  \[
+  \Box \coloneqq \frac{1}{c^2} \frac{\partial^2}{\partial t^2} - \frac{\partial^2}{\partial x^2}.
+  \]
+  すると、クライン=ゴルドン方程式は
+  \[
+  (\Box + \frac{m^2 c^2}{\hbar^2}) \Psi = 0
+  \]
+  と簡潔に表される。
+  また、付録にて$E^2 = p^2c^2 + m^2c^4$を直接置換する方法も示す。
 
+  \section{付録}
+  \subsection{Stoneの定理}
+  Stoneの定理は、強連続な1パラメータユニタリ群が必ず自己共役演算子を生成子として持つ、という定理である。具体的には、強連続な1パラメータユニタリ群 $U(t)$ に対して、自己共役演算子 $A$ が存在し、
+  \[
+  U(t) = e^{-i t A}
+  \]
+  と表される。
+  \subsection{ランダウの記法}
+  ランダウの記法は、関数の漸近的な振る舞いを表すための記法である。例えば、関数 $f(x)$ をテイラー展開したとき、
+  \[
+  \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!} x^n = f(0) + f'(0)x + \frac{f''(0)}{2!}x^2 + \frac{f'''(0)}{3!}x^3 + ...
+  \]
+  と表されるが、微小な $x$ に対しては高次の項は相対的に極めて小さくなるため、これらをまとめて無視できるほど小さいと言うことができる。このとき、$f(x)$ の高次の項をまとめて
+  \[
+  f(x) = O(x^n) \quad (x \to 0)
+  \]
+  と表す。ここで、$O(x^n)$ は「$x$ が0に近づくとき、$f(x)$ の高次の項は $x^n$ に比例するほど小さい」という意味である。
+  \subsection{正準交換関係とストーン・フォン・ノイマンの定理}
+  量子力学における位置演算子 $\hat{x}$ と運動量演算子 $\hat{p}$ は、ハミルトン力学における位置 $x$ と運動量 $p$ の正準交換関係
+  \[
+  \left\{x, p\right\} = 1
+  \]
+  を量子化したものであり、以下の交換関係を満たす :
+  \[
+  [\hat{x}, \hat{p}] = \hat{x}\hat{p} - \hat{p}\hat{x} = i\hbar I.
+  \]
+  ここで、$I$ は恒等作用素である。
+  \subsection{クライン=ゴルドン方程式の直接置換}
+  相対論的ハミルトニアンの場合、エネルギー $E$ と運動量 $p$ の関係は
+  \[
+  E^2 = p^2 c^2 + m^2 c^4.
+  \]
+
+  エネルギー・運動量演算子を
+  \[
+  \hat{E} = i \hbar \frac{\partial}{\partial t}, \quad \hat{p} = - i \hbar \frac{\partial}{\partial x}
+  \]
+  とすると
+  \[
+  \big(i \hbar \frac{\partial}{\partial t}\big)^2 \Psi = \big(-i \hbar \frac{\partial}{\partial x}\big)^2 c^2 \Psi + m^2 c^4 \Psi
+  \]
+  が得られる。
+  これを上記の式に代入すると
+  \[
+  - \hbar^2 \frac{\partial^2}{\partial t^2} \Psi = - \hbar^2 c^2 \frac{\partial^2}{\partial x^2} \Psi + m^2 c^4 \Psi
+  \]
+  となり、整理すると
+  \[
+  \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \Psi - \frac{\partial^2}{\partial x^2} \Psi + \frac{m^2 c^2}{\hbar^2} \Psi = 0
+  \]
+  となる。これがクライン=ゴルドン方程式である。
+
+  $\LaTeX$
 \end{document}
