@@ -8,4 +8,4 @@
 *.toc
 *.out
 .DS_Store
-temp/*
+temp
