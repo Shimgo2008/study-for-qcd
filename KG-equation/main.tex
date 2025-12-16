@@ -157,7 +157,7 @@
   \section{シュレディンガー方程式の導出}
   古典力学ハミルトニアン $H$ は全エネルギー $E$ として
   \[
-  H = K + V = \frac{p^2}{2m} + V(x)
+  H = K + V = \frac{\mathbf{p}^2}{2m} + V(x)
   \]
   を持つ。運動量演算子は
   \[
@@ -176,50 +176,53 @@
   \section{クライン=ゴルドン方程式の導出}
   相対論的ハミルトニアン $H$ は全エネルギー $E$ として
   \[
-  H = \sqrt{p^2 c^2 + m^2 c^4}
+  H = \sqrt{\mathbf{p}^2 c^2 + m^2 c^4}
+  \]
+  \[
+  \mathbf{p}^2 = p_x^2 + p_y^2 + p_z^2
   \]
   を持つ。運動量演算子は
   \[
-  \hat{p} = - i \hbar \frac{\partial}{\partial x},
+  \hat{p} = - i \hbar \nabla = - i \hbar \left(\frac{\partial}{\partial x}, \frac{\partial}{\partial y}, \frac{\partial}{\partial z}\right)
   \]
   よって
   \[
-  \hat{H} = \sqrt{\hat{p}^2 c^2 + m^2 c^4} = \sqrt{- \hbar^2 c^2 \frac{\partial^2}{\partial x^2} + m^2 c^4}
+  \hat{H} = \sqrt{\hat{p}^2 c^2 + m^2 c^4} = \sqrt{- \hbar^2 c^2 \nabla^2 + m^2 c^4}
   \]
   となる。
   \begin{quote}
     \item 根号付き演算子の定義について\\
     \ \ \ 根号付き演算子 $\sqrt{A}$ は定義が難しい。一般に、自己共役演算子 $A$ に対して、スペクトル分解を用いて定義されるが、ここでは詳細を省略する。\\
-    また、定義が複雑なため、一般には付録に示している $E^2 = p^2c^2 + m^2c^4$ を直接置換する方法が一般的である。
+    また、定義が複雑なため、一般には付録に示している $E^2 = \mathbf{p}^2c^2 + m^2c^4$ を直接置換する方法が一般的である。
   \end{quote}
   これを微分方程式に代入すると
   \[
-  i \hbar \frac{\partial}{\partial t} \Psi(x,t) = \sqrt{- \hbar^2 c^2 \frac{\partial^2}{\partial x^2} + m^2 c^4} \Psi(x,t)
+  i \hbar \frac{\partial}{\partial t} \Psi(x,t) = \sqrt{- \hbar^2 c^2 \nabla^2 + m^2 c^4} \Psi(x,t)
   \]
   となる。
   ここで、根号を外すために両辺を2乗すると
   \[
-  \big(i \hbar \frac{\partial}{\partial t}\big)^2 \Psi = \big(-i \hbar \frac{\partial}{\partial x}\big)^2 c^2 \Psi + m^2 c^4 \Psi
+  \big(i \hbar \frac{\partial}{\partial t}\big)^2 \Psi = \big(-i \hbar \nabla\big)^2 c^2 \Psi + m^2 c^4 \Psi
   \]
   が得られる。これを上記の式に代入すると
   \[
-  - \hbar^2 \frac{\partial^2}{\partial t^2} \Psi = - \hbar^2 c^2 \frac{\partial^2}{\partial x^2} \Psi + m^2 c^4 \Psi
+  - \hbar^2 \frac{\partial^2}{\partial t^2} \Psi = - \hbar^2 c^2 \nabla^2 \Psi + m^2 c^4 \Psi
   \]
   となり、整理すると
   \[
-  \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \Psi - \frac{\partial^2}{\partial x^2} \Psi + \frac{m^2 c^2}{\hbar^2} \Psi = 0
+  \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \Psi - \nabla^2 \Psi + \frac{m^2 c^2}{\hbar^2} \Psi = 0
   \]
   となる。これがクライン=ゴルドン方程式である。
   ここでダランベルシアン $\Box$ を以下のように定義する
   \[
-  \Box \coloneqq \frac{1}{c^2} \frac{\partial^2}{\partial t^2} - \frac{\partial^2}{\partial x^2}.
+  \Box \coloneqq \frac{1}{c^2} \frac{\partial^2}{\partial t^2} - \nabla^2.
   \]
   すると、クライン=ゴルドン方程式は
   \[
   (\Box + \frac{m^2 c^2}{\hbar^2}) \Psi = 0
   \]
   と簡潔に表される。
-  また、付録にて$E^2 = p^2c^2 + m^2c^4$を直接置換する方法も示す。
+  また、付録にて$E^2 = \mathbf{p}^2c^2 + m^2c^4$を直接置換する方法も示す。
 
   \section{付録}
   \subsection{Stoneの定理}
@@ -251,7 +254,7 @@
   \subsection{クライン=ゴルドン方程式の直接置換}
   相対論的ハミルトニアンの場合、エネルギー $E$ と運動量 $p$ の関係は
   \[
-  E^2 = p^2 c^2 + m^2 c^4.
+  E^2 = \mathbf{p}^2 c^2 + m^2 c^4
   \]
 
   エネルギー・運動量演算子を
@@ -273,5 +276,4 @@
   \]
   となる。これがクライン=ゴルドン方程式である。
 
-  $\LaTeX$
 \end{document}
