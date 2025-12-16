@@ -1,0 +1,285 @@
+% 期間 これ自体は5day(だいたいEL方程式の導出し始め(11月中旬)から1ヶ月でここまできたってなるとだいぶ感慨深い)
+\documentclass[a4paper,12pt]{article}
+
+% --- 基本パッケージ ---
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{setspace}
+
+% --- 単位と参照のパッケージ ---
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% --- ページ設定 ---
+\geometry{margin=25mm}
+\setstretch{1.2}
+
+\title{ディラック方程式について}
+\author{しん}
+\date{\today}
+
+\begin{document}
+  \maketitle
+
+  \section*{はじめに}
+    \begin{itemize}
+      \item 自然単位系 $\hbar = c = 1$ は用いない。
+      \item 物理的な背景や歴史的経緯については省略し、数学的な導出に焦点を当てる。
+      \item ここではn次元空間への一般化を考えたのち、3次元空間に特化する。
+  \end{itemize}
+
+  パウリ行列を最初っから入れるのは流石にダサいので、行列が満たすべき条件がClifford代数の定義と一致することを示すところから始める。
+
+  \section{クライン=ゴルドン方程式によって起きる不都合}
+  クライン=ゴルドン方程式は以下のように定義される。
+  \[
+  \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \Psi - \frac{\partial^2}{\partial x^2} \Psi + \frac{m^2 c^2}{\hbar^2} \Psi = 0
+  \]
+  ここでダランベルシアン $\Box$ を以下のように定義する。
+  \[
+  \Box \coloneqq \frac{1}{c^2} \frac{\partial^2}{\partial t^2} - \frac{\partial^2}{\partial x^2}.
+  \]
+  すると、クライン=ゴルドン方程式は
+  \[
+  \left(\Box + \frac{m^2 c^2}{\hbar^2}\right) \Psi = 0
+  \]
+  と簡潔に示される。\\
+  クライン＝ゴルドン方程式からは相対論的な運動方程式が得られるものの、二次形式であることに起因して負のエネルギー解や確率解釈の不備が生じる。負エネルギー解は反粒子を示唆する点で物理的には正しい方向性を含んでいるが、クライン＝ゴルドン方程式そのものはそのメカニズムを十分に説明できない。こうした構造的限界を克服するために導入されたのがディラック方程式である。
+
+  \section{ディラック方程式の導出}
+  \subsection{Dirac方程式の理念}
+  二次式によって表される$E^2 = \mathbf{p}^2 c^2 + m^2 c^4$を一次式に置いて以下のように表せると仮定する。\\
+  $\mathbf{p}$は座標運動量であり、n次元において$\mathbf{p} = \left(p_1, p_2, \ldots, p_n\right)$と表される。
+  \[
+  E = \boldsymbol{\alpha} \cdot \mathbf{p} c + \beta m c^2
+  \]
+  本来、$\boldsymbol{\alpha}$と$\beta$は数値であるべきだが、これらを満たす数値は存在しない。そこで、$\boldsymbol{\alpha}$と$\beta$を行列として扱うことにする。\\
+  このとき、$\boldsymbol{\alpha}$と$\beta$は係数のため、
+  \[
+  \begin{aligned}
+    \boldsymbol{\alpha}^2 = \mathbf{I}\\
+    \beta^2 = \mathbf{I}
+  \end{aligned}
+  \]
+  でなければならない。また、$E^2 = \mathbf{p}^2 c^2 + m^2 c^4$を満たすために、
+  \[
+  \begin{aligned}
+    \alpha_i \alpha_j &= - \alpha_j \alpha_i \quad (i \neq j)\\
+    \alpha_i \beta &= - \beta \alpha_i \quad (i = 1, 2, \ldots, n)\\
+  \end{aligned}
+  \]
+  も成り立たなければならない。\\
+  これらの条件は以下のようにまとめられる。
+  \begin{itemize}
+    \item 反交換関係:
+    \[
+    \begin{aligned}
+      \{\alpha_i, \alpha_j\} &= 2 \delta_{ij} \mathbf{I}\\
+      \{\alpha_i, \beta\} &= 0
+    \end{aligned}
+    \]
+    \item 自己逆関係:
+    \[
+    \alpha_i^2 = \beta^2 = \mathbf{I} \quad (i = 1, 2, \ldots, n)
+    \]
+  \end{itemize}
+  memo: クロネッカーの$\delta$
+  \[
+  \delta_{ij} =
+  \begin{cases}
+    1 & (i = j)\\
+    0 & (i \neq j)
+  \end{cases}
+  \]
+  \subsection{Clifford代数との対応}
+  これらの条件は、Clifford代数の定義と一致する(詳細は付録)ため、実際に当てはめるために整理する。\\
+  まず、$\alpha_i$と$\beta$は行列であり、全て二乗して、正の単位行列になるため、これらは4次元のEuclidean空間$\mathbb{R}^4$の基底ベクトルとして解釈でき、計量は$(+,+,+,+)$となる。\\
+  注: 無論、ミンコフスキー空間の計量$(-,+,+,+)$を考えることもできるが、ここではディラック方程式の導出に必要な条件を満たすためにEuclidean空間を選択している。\\
+
+  \[
+  Cl(\mathbb{R}^4, (+,+,+,+)) = T(\mathbb{R}^4) \Big/ \langle v \otimes v - Q(v) 1 \mid v \in \mathbb{R}^4 \rangle
+  \]
+  ここで、$Q$は以下のような二次形式である。
+  \[
+  Q(v) = v_1^2 + v_2^2 + v_3^2 + v_4^2
+  \]
+
+  また、$T(V)$は$V$上のテンソル代数であり、以下のように定義される。
+  \[
+  T(V) = \bigoplus_{i=0}^{\infty} V^{\otimes i} = \mathbb{F} \oplus V \oplus (V \otimes V) \oplus (V \otimes V \otimes V) \oplus \cdots
+  \]
+  ここで、$\mathbb{F}$は基底体であり、通常は実数体$\mathbb{R}$または複素数体$\mathbb{C}$が用いられる。\\
+  以上より、$Cl(\mathbb{R}^4, (+,+,+,+))$は以下のように表される。
+  \[
+  \begin{aligned}
+    Cl(\mathbb{R}^4, (+,+,+,+)) = \bigoplus_{i=0}^{\infty} (\mathbb{R}^4)^{\otimes i} \Big/ \langle v \otimes v - (+v_1^2 + v_2^2 + v_3^2 + v_4^2) 1 \mid v \in \mathbb{R}^4 \rangle\\
+  \end{aligned}
+  \]
+  $\langle ... \rangle$の意味については付録で説明する。\\
+
+  以上の議論により、$\alpha_i$と$\beta$はClifford代数$Cl(\mathbb{R}^4, (+,+,+,+))$の元として具体的に構成できることが示された。\\
+  これからは略記として、$Cl(\mathbb{R}^4, (+,+,+,+)) \cong Cl(4, 0)$と表記することにする。ここで、第一引数が正の計量の数、第二引数が負の計量の数を表す\\
+
+  \subsection{$Cl(4, 0)$の具体的な表現}
+  さて、$Cl(n , m)$のClifford代数は最低でも$2^k$次元の平方行列で表現されることが知られている。(k = $\frac{\lceil n + m \rceil}{2}$)(自明だろこれ)\\
+  したがって、$Cl(4, 0)$を構成するには、最低でも$4 \times 4$の行列が必要である。\\
+  memo: $\lceil x \rceil$は天井関数で、平たくいうなら小数点第一位を切り上げる関数。\\\\
+  この$4 \times 4$行列を構成するために、より低次元のClifford代数をテンソル積で組み合わせるために、一度、$2\times 2$行列におけるClifford代数を考える。\\
+  ここからは何度も計算することになるため、実際の計算は付録に譲る。\\
+  まず、$2 \times 2$ 行列空間において、反交換関係 $\{A, B\} = 0$ と自己逆関係 $A^2 = \mathbf{I}$ を満たす基底として、以下のパウリ行列 $\sigma_i$ が知られている。(これは有名だし比較的自明だから使ってもいいよね...?)
+  \[
+  \sigma_1 =
+  \begin{pmatrix}
+    0 & 1\\
+    1 & 0
+  \end{pmatrix}, \quad
+  \sigma_2 =
+  \begin{pmatrix}
+    0 & -i\\
+    i & 0
+  \end{pmatrix}, \quad
+  \sigma_3 =
+  \begin{pmatrix}
+    1 & 0\\
+    0 & -1
+  \end{pmatrix}
+  \]
+  実際に、これらは
+  \[
+  \sigma_i \sigma_j + \sigma_j \sigma_i = 2 \delta_{ij} \mathbf{I}_2
+  \]
+  を満たす。\\
+
+  しかし、我々は4つの反可換な行列（$\alpha_1, \alpha_2, \alpha_3$ と $\beta$）を必要としているが、独立なパウリ行列は3つしかない。
+  そこで、パウリ行列をブロック要素として用いた $4 \times 4$ 行列（Dirac表現）を以下のように構成する。
+  \[
+  \alpha_i =
+  \begin{pmatrix}
+    0 & \sigma_i\\
+    \sigma_i & 0
+  \end{pmatrix} \quad (i = 1, 2, 3)
+  \]
+  \[
+  \beta =
+  \begin{pmatrix}
+    \mathbf{I}_2 & 0\\
+    0 & -\mathbf{I}_2
+  \end{pmatrix}
+  \]
+  これらの行列は、先に述べた反交換関係と自己逆関係を満たすことが確認できる。(詳細は付録)\\
+  \subsection{ミンコフスキー時空への接続}
+  前節で構成した$Cl(4, 0)$はEuclidean計量$(+,+,+,+)$に基づいているが、物理的にはミンコフスキー時空の計量$(+,-,-,-)$を考慮する必要がある。\\
+  これを実現するために、$\gamma$行列を導入する。
+  \[
+  \gamma^0 = \beta
+  \]
+  \[
+  \gamma^i = \beta \alpha_i \quad (i = 1, 2, 3)
+  \]
+  これらの$\gamma$行列は、ミンコフスキー計量に対応する反交換関係を満たす。
+  \[
+  \{\gamma^\mu, \gamma^\nu\} = 2 g^{\mu \nu} \mathbf{I}_4
+  \]
+  ここで、$g^{\mu \nu}$はミンコフスキー計量テンソルであり、
+  \[
+  g^{\mu \nu} =
+  \begin{pmatrix}
+    1 & 0 & 0 & 0\\
+    0 & -1 & 0 & 0\\
+    0 & 0 & -1 & 0\\
+    0 & 0 & 0 & -1
+  \end{pmatrix}
+  \]
+  である。\\
+  以上の議論により、$\gamma$行列はミンコフスキー時空におけるClifford代数$Cl(1, 3)$の表現として機能することが示された。\\
+  \subsection{ディラック方程式の最終形}
+  さて、最初の仮定
+  \[
+  E = \boldsymbol{\alpha} \cdot \mathbf{p} c + \beta m c^2
+  \]
+  に量子力学的な演算子置換を適用する。
+  \[
+  E \rightarrow i \hbar \frac{\partial}{\partial t}, \quad \mathbf{p} \rightarrow -i \hbar \nabla
+  \]
+  これにより、以下のような方程式が得られる。
+  \[
+  i \hbar \frac{\partial}{\partial t} \Psi = \left( -i \hbar c \boldsymbol{\alpha} \cdot \nabla + \beta m c^2 \right) \Psi
+  \]
+  現在の方程式は、時間・空間の対称性が明示されていないため(分かれているため)、$\gamma$行列を用いて以下のように書き換える。
+  \[
+  \boldsymbol{\alpha} \cdot \nabla = \sum_{i=1}^{3} \alpha_i \partial_i = \sum_{i=1}^{3} \left(\beta \gamma^i\right) \partial_i = \beta \sum_{i=1}^{3} \gamma^i \partial_i
+  \]
+  これを元の方程式に代入する(アインシュタインの縮約記法を用いるとより簡潔に書けるが、ここでは明示的に書く)。
+  \[
+  i \hbar \frac{\partial}{\partial t} \Psi = \left( -i \hbar c \beta \sum_{i=1}^{3} \gamma^i \partial_i + \beta m c^2 \right) \Psi
+  \]
+  さらに、両辺に$\beta$を掛ける。
+  \[
+  i \hbar \beta \frac{\partial}{\partial t} \Psi = \left( -i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i + m c^2 \right) \Psi
+  \]
+  ここで、$\gamma^0 = \beta$を用いると、左辺は以下のように書き換えられる。
+  \[
+  i \hbar \gamma^0 \frac{\partial}{\partial t} \Psi
+  \]
+  したがって、方程式は以下のようになる。
+  \[
+  i \hbar \gamma^0 \frac{\partial}{\partial t} \Psi = \left( -i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i + m c^2 \right) \Psi
+  \]
+  両辺を一つの式にまとめると、
+  \[
+  \left( i \hbar \gamma^0 \frac{\partial}{\partial t} + i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i - m c^2 \right) \Psi = 0
+  \]
+  となる。さらに、4次元の微分演算子$\partial_\mu, \quad (\mu = 0, 1, 2, 3)$を導入し、アインシュタインの縮約記法を用いると、最終的に以下のように表される。
+  \[
+  \left( i \hbar \gamma^\mu \partial_\mu - m c^2 \right) \Psi = 0
+  \]
+  これがディラック方程式の最終形である。
+
+  \section{付録}
+  \subsection{$(+,+,+,+)$をQに対応させる}
+  Qはcallableなのに何でtupleを渡しているんだ？ってなったから解説\\
+  表記上 $Cl(+,+,+,+)$ のように符号のタプルを渡すことがあるが、これは計量関数 $Q$ の性質（基底 $e_k$ に対する値 $Q(e_k)=+1$）を指定する省略記法である。
+  厳密には $Q$ はベクトル $v$ を引数にとりスカラー値を返す関数（二次形式）であり、この関数を通じて代数の演算規則（$e_k^2=1$ 等）が決定される。
+
+  \subsection{$\langle ... \rangle$の意味}
+  ここでの$\langle ... \rangle$はイデアルを表し、テンソル代数$T(V)$における特定の関係を生成する集合を意味する。
+  具体的にいうと、$\langle ... \rangle$を満たす元を0とみなし、商環を形成することで、Clifford代数の演算規則が定義される。(商環というのは$T(V)\Big/\langle ... \rangle$のことで、イデアルを実際に適応させてるってことでいいのかなわがんね)\\
+
+  \subsection{Clifford代数の定義}
+  \[
+  Cl(V, Q) = T(V) \Big/ \langle v \otimes v - Q(v) 1 \mid v \in V \rangle
+  \]
+  \[
+  Q(v) = \sum_{i=1}^{n} \epsilon_i v_i^2 \quad (\epsilon_i = \pm 1)
+  \]
+  \[
+  T(V) = \bigoplus_{i=0}^{\infty} V^{\otimes i} = \mathbb{F} \oplus V \oplus (V \otimes V) \oplus (V \otimes V \otimes V) \oplus \cdots
+  \]
+
+  \subsection{$v \otimes v - Q(V)1$が$\alpha_i$と$\beta$の条件を満たす理由(どっちか迷い中)}
+  まず、Clifford代数の商空間の定義$\langle ... \rangle$より、任意の $v \in V$ に対して以下の等式が成り立つ。
+    \[
+    v \cdot v = Q(v) \mathbf{1}
+    \]
+    （ここではテンソル積 $\otimes$ がClifford積 $\cdot$ になったとみなす）
+    
+    この式に $v = e_i$ を代入すると、基底の二乗についての条件が得られる。
+    \[
+    e_i^2 = Q(e_i) \mathbf{1} = \mathbf{1} \quad (\text{Euclidean計量の場合})
+    \]
+    これは $\alpha_i^2 = \beta^2 = \mathbf{I}$、自己逆関係を満たすことに対応する。\\
+
+    次に、$v = e_i + e_j$ ($i \neq j$) を代入し、計量 $Q$ の双線形性（直交性）を用いると、
+    \[
+    (e_i + e_j)^2 = Q(e_i + e_j)\mathbf{1} = (Q(e_i) + Q(e_j))\mathbf{1} = e_i^2 + e_j^2
+    \]
+    左辺を展開すると $e_i^2 + e_i e_j + e_j e_i + e_j^2$ となるため、両辺を比較することで
+    \[
+    e_i e_j + e_j e_i = 0
+    \]
+    が得られる。これは反交換関係に対応する。\\
+
+  % \subsection{算数するだけ}
+  % (行列がちゃんと特性を満たすかの検算。後でやるね)
+\end{document}
