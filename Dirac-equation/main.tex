@@ -122,7 +122,7 @@
   これからは略記として、$Cl(\mathbb{R}^4, (+,+,+,+)) \cong Cl(4, 0)$と表記することにする。ここで、第一引数が正の計量の数、第二引数が負の計量の数を表す\\
 
   \subsection{$Cl(4, 0)$の具体的な表現}
-  さて、$Cl(n , m)$のClifford代数は最低でも$2^k$次元の平方行列で表現されることが知られている。(k = $\frac{\lceil n + m \rceil}{2}$)(自明だろこれ)\\
+  さて、$Cl(n , m)$のClifford代数は最低でも$2^k$次元の平方行列で表現されることが知られている。(k = $\frac{\lceil n + m \rceil}{2}$)\\
   したがって、$Cl(4, 0)$を構成するには、最低でも$4 \times 4$の行列が必要である。\\
   memo: $\lceil x \rceil$は天井関数で、平たくいうなら小数点第一位を切り上げる関数。\\\\
   この$4 \times 4$行列を構成するために、より低次元のClifford代数をテンソル積で組み合わせるために、一度、$2\times 2$行列におけるClifford代数を考える。\\
@@ -169,8 +169,20 @@
   \]
   これらの行列は、先に述べた反交換関係と自己逆関係を満たすことが確認できる。(詳細は付録)\\
   \subsection{ミンコフスキー時空への接続}
-  前節で構成した$Cl(4, 0)$はEuclidean計量$(+,+,+,+)$に基づいているが、物理的にはミンコフスキー時空の計量$(+,-,-,-)$を考慮する必要がある。\\
-  これを実現するために、$\gamma$行列を導入する。
+
+  前節までで構成したClifford代数$Cl(4,0)$はEuclidean計量に基づくものである。
+  しかし、物理的な時空は特殊相対性理論によりミンコフスキー計量
+  $(+,-,-,-)$ を持つことが要請される。
+
+  ディラック方程式はローレンツ変換の下で共変である必要があり、
+  そのためには$\gamma^\mu$行列が
+  \[
+  \{\gamma^\mu, \gamma^\nu\} = 2 g^{\mu\nu}\mathbf{I}
+  \]
+  を満たす必要がある。
+
+  この要請を満たすために、Euclidean計量で構成した$\alpha_i, \beta$
+  からミンコフスキー計量に対応する$\gamma$行列を定義する。
   \[
   \gamma^0 = \beta
   \]
@@ -226,13 +238,17 @@
   \[
   i \hbar \gamma^0 \frac{\partial}{\partial t} \Psi = \left( -i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i + m c^2 \right) \Psi
   \]
+  ここで、$\partial_0 = \frac{1}{c} \frac{\partial}{\partial t}$を導入すると、左辺は以下のように書き換えられる。
+  \[
+  \frac{1}{c} \left( i \hbar \gamma^0 \partial_0 \right) \Psi = \frac{1}{c} \left( -i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i + m c^2 \right) \Psi
+  \]
   両辺を一つの式にまとめると、
   \[
   \left( i \hbar \gamma^0 \frac{\partial}{\partial t} + i \hbar c \sum_{i=1}^{3} \gamma^i \partial_i - m c^2 \right) \Psi = 0
   \]
-  となる。さらに、4次元の微分演算子$\partial_\mu, \quad (\mu = 0, 1, 2, 3)$を導入し、アインシュタインの縮約記法を用いると、最終的に以下のように表される。
+  となる。さらに、$\mu$を0から3まで走るインデックスとして、アインシュタインの縮約記法を用いると、
   \[
-  \left( i \hbar \gamma^\mu \partial_\mu - m c^2 \right) \Psi = 0
+  \left( i \hbar c \gamma^\mu \partial_\mu - m c^2 \right) \Psi = 0
   \]
   これがディラック方程式の最終形である。
 
@@ -257,7 +273,7 @@
   T(V) = \bigoplus_{i=0}^{\infty} V^{\otimes i} = \mathbb{F} \oplus V \oplus (V \otimes V) \oplus (V \otimes V \otimes V) \oplus \cdots
   \]
 
-  \subsection{$v \otimes v - Q(V)1$が$\alpha_i$と$\beta$の条件を満たす理由(どっちか迷い中)}
+  \subsection{$v \otimes v - Q(V)1$が$\alpha_i$と$\beta$の条件を満たす理由}
   まず、Clifford代数の商空間の定義$\langle ... \rangle$より、任意の $v \in V$ に対して以下の等式が成り立つ。
     \[
     v \cdot v = Q(v) \mathbf{1}

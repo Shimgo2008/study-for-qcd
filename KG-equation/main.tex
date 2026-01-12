@@ -128,32 +128,52 @@
   \]
   となる。
 
-  \section{正準交換関係と演算子の表現}
-  古典力学における位置 $x$ と運動量 $p$ は、量子力学においては演算子 $\hat{x}, \hat{p}$ となり、ハイゼンベルクの正準交換関係 (Canonical Commutation Relation, CCR)
-  \[
-  [\hat{x}, \hat{p}] = \hat{x}\hat{p} - \hat{p}\hat{x} = i\hbar I
-  \]
-  を満たすことが要請される（$I$ は恒等作用素）。
+\section{正準交換関係と Heisenberg Lie 代数の表現}
 
-  ここで、この交換関係を満たす演算子の具体的な表現形式が必要となる。\\
-  ストーン・フォン・ノイマンの定理 (Stone-von Neumann Theorem) によれば、有限次元の正準交換関係（厳密にはその指数形式であるワイルの関係式）を満たす既約なユニタリ表現は、ユニタリ同値を除いて一意に定まる。
+  前節までに、時間発展の生成子として自己共役演算子（ハミルトニアン）$H$ が存在することが示された。次に、古典力学的なハミルトニアン $H(x, p)$ を量子力学的な演算子 $\hat{H}(\hat{x}, \hat{p})$ へと対応させる（量子化する）ために、位置演算子 $\hat{x}$ と運動量演算子 $\hat{p}$ が満たすべき代数構造を定める。
 
-  この定理により、我々は最も一般的な「シュレディンガー表現」を採用することができる。
-  位置演算子 $\hat{x}$ を座標空間における掛け算演算子として対角化する表現をとると、
+  \subsection{正準交換関係と Heisenberg Lie 代数}
+  古典力学における位置 $x$ と運動量 $p$ のポアソン括弧 $\{x, p\} = 1$ に対応して、量子力学では演算子間に以下の\textbf{正準交換関係 (Canonical Commutation Relations, CCR)} を要請する。
   \[
-  \hat{x} \psi(x) = x \psi(x)
+  [\hat{x}, \hat{p}] \coloneqq \hat{x}\hat{p} - \hat{p}\hat{x} = i\hbar I.
   \]
-  となる。このとき、交換関係 $[\hat{x}, \hat{p}] = i\hbar$ を満たす運動量演算子 $\hat{p}$ の表現は、微分演算子として一意に定まる :
+  ここで $I$ は恒等作用素である。$\hat{x}, \hat{p}, I$ が生成する線形空間は、この交換子積（Lie 括弧）に関して閉じており、これを \textbf{Heisenberg Lie 代数} (Heisenberg Lie Algebra) と呼ぶ。
   \[
-  \hat{p} = -i\hbar \frac{\partial}{\partial x}.
+  \mathfrak{h} = \mathrm{span}_{\mathbb{R}}\{ \hat{x}, \hat{p}, I \}.
+  \]
+
+  \subsection{Weyl の関係式と Stone-von Neumann の定理}
+  演算子 $\hat{x}, \hat{p}$ は非有界作用素となるため、定義域の問題を回避して数学的に厳密な議論を行うには、これらを指数写像によってユニタリ群（Heisenberg 群）へと持ち上げる必要がある。
+  
+  実パラメータ $a, b \in \mathbb{R}$ に対し、ユニタリ作用素 $U(a), V(b)$ を
+  \[
+  U(a) = e^{-i a \hat{p} / \hbar}, \quad V(b) = e^{i b \hat{x} / \hbar}
+  \]
+  と定義する。これらは以下の \textbf{Weyl の関係式} (Weyl Relations) を満たす。
+  \[
+  U(a)V(b) = e^{-i ab / \hbar} V(b)U(a).
   \]
   
-  \begin{itemize}
-      \item \textbf{証明の概略} : 波動関数 $\psi(x)$ に対して $(\hat{x}\hat{p} - \hat{p}\hat{x})\psi = i\hbar \psi$ を満たす $\hat{p}$ を $\hat{p} = A \frac{\partial}{\partial x} + B$ の形で探索すると、係数が定まる。
-  \end{itemize}
+  ここで、\textbf{Stone-von Neumann の定理}を用いる。この定理は、有限自由度の Heisenberg 群の既約ユニタリ表現は、ユニタリ同値を除いて一意に定まることを主張する。すなわち、どのようなヒルベルト空間を用意しても、CCR を満たす表現は本質的にただ一つ（Schrödinger 表現）に帰着される。
 
-  これにより、ハミルトニアン $H$ を演算子化する準備が整った。
-
+  \subsection{Schrödinger 表現の導出}
+  Stone-von Neumann の定理により保証された表現として、ここではヒルベルト空間 $\mathcal{H} = L^2(\mathbb{R})$ 上の \textbf{Schrödinger 表現}を採用する。
+  
+  波動関数 $\psi(x) \in L^2(\mathbb{R})$ に対して、位置演算子 $\hat{x}$ を乗算演算子として定義する。
+  \[
+  (\hat{x} \psi)(x) = x \psi(x).
+  \]
+  このとき、正準交換関係 $[\hat{x}, \hat{p}] = i\hbar I$ を満たす運動量演算子 $\hat{p}$ の具体的な形式は、微分演算子として一意に導かれる。
+  \[
+  (\hat{p} \psi)(x) = -i\hbar \frac{\partial}{\partial x} \psi(x).
+  \]
+  実際、任意のテスト関数 $f(x)$ に対して
+  \[
+  [\hat{x}, \hat{p}] f(x) = x \left(-i\hbar \frac{\partial f}{\partial x}\right) - \left(-i\hbar \frac{\partial}{\partial x} (xf(x))\right) = i\hbar f(x)
+  \]
+  となり、交換関係が満たされていることが確認できる。
+  
+  以上により、抽象的な演算子であった $H$ を、微分演算子を含む具体的な形式 $\hat{H}$ として書き下す準備が整った。
   \section{シュレディンガー方程式の導出}
   古典力学ハミルトニアン $H$ は全エネルギー $E$ として
   \[

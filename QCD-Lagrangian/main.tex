@@ -1,0 +1,335 @@
+% 期間 4days
+\documentclass[a4paper,12pt]{article}
+
+% --- 基本パッケージ ---
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{setspace}
+
+% --- 単位と参照のパッケージ ---
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% --- ページ設定 ---
+\geometry{margin=25mm}
+\setstretch{1.2}
+
+\title{QCDのラグランジアン密度の導出}
+\author{しん}
+\date{\today}
+
+\begin{document}
+  \maketitle
+  \section{はじめに}
+  本稿の目的は格子QCDを実装するために、学んでいくものの一つであるQCDのラグランジアンを定義することである。 そのために、まずは自由なディラック場のラグランジアン密度を導出し、次にゲージ対称性を導入することでQCDのラグランジアン密度を得る。
+
+  \section{Lie群とSU(3)ゲージ理論}
+  まず、QCDは強い相互作用を記述する理論である。強い相互作用はクォークとグルーオンの相互作用を記述する。クォークはフェルミ粒子であり、スピン1/2を持つ。したがって、クォーク場はディラック場として記述される。\\
+  次に、クォークは3つのカラー自由度を持つ。これらのカラー自由度はSU(3)群によって記述される。したがって、QCDはSU(3)のゲージ理論である。\\
+  以上より、QCDはSU(3)のゲージ理論であり、クォーク場はディラック場として記述されることが示された。
+
+  ここで$\lambda_a (a=1,2,\dots,8)$をSU(3)の生成子とし、$T_a = \frac{\lambda_a}{2}$と定義する。
+  $\lambda$はGell-Mann行列と呼ばれる。
+  また、$\mathfrak{su}(3)$を回転を加え、生成子$T_a$の線形結合で表されるリー代数とする。
+  すると、任意の$U \in SU(3)$は以下のように表される。
+  \[
+  U = e^{i\theta_a T_a}
+  \]
+  ここで、$\theta_a$は実数である。
+  \section{ディラック場のラグランジアン密度}
+  ディラック方程式は以下のように与えられる。
+  \[
+  (i\gamma^\mu \partial_\mu - m)\psi = 0
+  \]
+  ここで、$\psi$はディラックスピノル、$m$は質量、$\gamma^\mu$はディラック行列である。\\
+  この時、第一項が運動項、第二項が質量項である。\\
+  これをもとに、ラグランジアン密度を以下のように仮定する。
+  \[
+  \mathcal{L} = i\gamma^\mu \partial_\mu \psi - m \psi
+  \]
+  しかし、ラグランジアンはスカラーを返す関数である必要があるため、4次スピノルを返すこの関数は不適である。
+  ここで、このスピノルをスカラーに直すために、共役スピノル$\bar{\psi}$を導入する必要がある。
+  他にも$\bar{\psi}$は以下の特性を満たす必要がある
+  \begin{itemize}
+    \item ローレンツ変換に対して不変であること
+    \item エルミート共役を取ったときに、ラグランジアン密度が実数になること
+  \end{itemize}
+  これらの条件を満たすものとして、以下のように定義される。
+  \[
+  \bar{\psi} = \psi^\dagger \gamma^0
+  \]
+
+  これを用いて、ラグランジアン密度は以下のように修正される。
+  \[
+  \mathcal{L} = \bar{\psi}(i\gamma^\mu \partial_\mu - m)\psi
+  \]
+  これが自由なディラック場のラグランジアン密度である。
+
+  \section{QCDのラグランジアン密度}
+  次に、QCDのラグランジアン密度を導出する。
+  QCDのラグランジアンに要請したい条件は以下の通りである。
+  \begin{itemize}
+    \item ローレンツ不変であること
+    \item ゲージ対称性を持つこと
+    \item 自由なディラック場のラグランジアン密度を含むこと
+  \end{itemize}
+
+  \subsection{局所ゲージ対称性の導入}
+  前節によって、QCDはSU(3)のゲージ理論であることが示された。
+  したがって、QCDのラグランジアン密度はSU(3)の局所ゲージ対称性を持つ必要がある。
+  まず、ディラック場のラグランジアン密度において、ディラック場$\psi(x)$は以下のように変換される。
+  \[
+  \begin{aligned}
+    \psi(x) \to \psi^\prime(x) &= SU(3)\psi(x) \\
+    &= e^{i\theta_a(x) T_a}\psi(x)\\
+    &= \exp\left(i \sum_{a=1}^8 \theta_a(x) T_a \right)\psi(x)\\
+    &= \exp\left(i \sum_{a=1}^8 \theta_a(x) \frac{\lambda_a}{2} \right)\psi(x)\\
+    &\equiv U(x)\psi(x)
+  \end{aligned}
+  \]
+  補助的に$\bar{\psi}U(x)$を計算する。
+  \[
+  \begin{aligned}
+    \bar{\psi}^\prime &= (\psi^\prime)^\dagger \gamma^0 \\
+    &= (U(x)\psi)^\dagger \gamma^0 \\
+    &= \psi^\dagger U^\dagger (x) \gamma^0 \\
+    &= \bar{\psi} U^\dagger (x) 
+  \end{aligned}
+  \]
+  ここで、$\theta_a(x)$は$C^\infty$級の実関数である。
+  この変換は局所ゲージ変換と呼ばれる。
+  この変換に対して、ラグランジアン密度が不変である必要があるため、実際に変換を適用してみる。
+  \[
+  \mathcal{L} \to \mathcal{L}^\prime = \bar{\psi}^\prime(i\gamma^\mu \partial_\mu - m)\psi^\prime
+  \]
+  ここで、一度展開し、
+  \[
+  \bar{\psi}^\prime i\gamma^\mu \partial_\mu \psi^\prime - m \bar{\psi}^\prime \psi^\prime
+  \]
+  の各項を計算する。
+  まず、運動項を計算する。
+  \[
+  \begin{aligned}
+    \bar{\psi}^\prime i\gamma^\mu \partial_\mu \psi^\prime 
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu \partial_\mu (U(x)\psi) \\
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu [(\partial_\mu U(x))\psi + U(x)\partial_\mu \psi] \\
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi + \bar{\psi} U^\dagger (x) U(x) i\gamma^\mu \partial_\mu \psi \\
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi + \bar{\psi} i\gamma^\mu \partial_\mu \psi
+  \end{aligned}
+  \]
+  次に、質量項を計算する。
+  \[
+  \begin{aligned}
+    - m \bar{\psi}^\prime \psi^\prime 
+    &= - m \bar{\psi} U^\dagger (x) U(x) \psi \\
+    &= - m \bar{\psi} \psi
+  \end{aligned}
+  \]
+  以上より、ラグランジアン密度の変換は以下のようになる。
+  \[
+  \begin{aligned}
+    \mathcal{L}^\prime 
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi + \bar{\psi} i\gamma^\mu \partial_\mu \psi - m \bar{\psi} \psi \\
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi + \left( \bar{\psi} (i\gamma^\mu \partial_\mu - m) \psi \right) \\
+    &= \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi + \mathcal{L}
+  \end{aligned}
+  \]
+  ここで、第二項は元のラグランジアン密度である。
+  よって、ラグランジアン密度は局所ゲージ変換に対して不変ではないことが分かる。
+  したがって、ラグランジアン密度を修正する必要がある。
+\subsection{修正されたラグランジアン密度}
+  前節で見たように、単純な微分を用いたラグランジアン密度をゲージ変換すると、以下の「余分な項（ゴミ）」が現れてしまった。
+  \[
+  \delta \mathcal{L} = \bar{\psi} U^\dagger (x) i\gamma^\mu (\partial_\mu U(x))\psi
+  \]
+  この項を打ち消してゲージ不変性を回復させるために、ラグランジアン密度に新たな相互作用項を加えることを考える。
+  
+  まず、通常の微分 $\partial_\mu$ を、未知の補正項 $(\cdot)$ を含んだ共変微分 $D_\mu$ に置き換える。
+  \[
+  D_\mu = \partial_\mu + (\cdot)
+  \]
+  この $(\cdot)$ は、変換によって現れるゴミを相殺するためのものである。
+  この $(\cdot)$ が $3\times3$ 行列として振る舞う必要があるため、Lie代数の基底 $T_a$ と、新しい場 $A_\mu^a(x)$、結合定数 $g$ を用いて以下のように定義してみる。
+  \[
+  D_\mu = \partial_\mu - ig A_\mu^a T_a \equiv \partial_\mu - ig A_\mu
+  \]
+  この新しい共変微分を用いたラグランジアン密度を $\mathcal{L}_{\text{new}}$ とする。
+  \[
+  \mathcal{L}_{\text{new}} = \bar{\psi} (i\gamma^\mu D_\mu - m) \psi = \bar{\psi} (i\gamma^\mu \partial_\mu - m) \psi + g \bar{\psi} \gamma^\mu A_\mu \psi
+  \]
+  ここで、第二項 $g \bar{\psi} \gamma^\mu A_\mu \psi$ が、ゴミを消すために追加した新しい項である。
+
+  では、この $\mathcal{L}_{\text{new}}$ がゲージ変換に対して不変になる条件（ゴミがきれいに消える条件）を求める。
+  ゲージ変換を行い、項を展開する。
+  \[
+  \begin{aligned}
+    \mathcal{L}_{\text{new}}^\prime &= \bar{\psi}^\prime (i\gamma^\mu \partial_\mu - m) \psi^\prime + g \bar{\psi}^\prime \gamma^\mu A_\mu^\prime \psi^\prime \\
+    &= (\mathcal{L}_{\text{orig}} + \underbrace{\bar{\psi} U^\dagger i\gamma^\mu (\partial_\mu U) \psi}_{\text{元のゴミ}}) + g (\bar{\psi} U^\dagger) \gamma^\mu A_\mu^\prime (U \psi) \\
+    &= \mathcal{L}_{\text{orig}} + \bar{\psi} i\gamma^\mu \left( U^\dagger (\partial_\mu U) - ig U^\dagger A_\mu^\prime U \right) \psi
+  \end{aligned}
+  \]
+  この式が、変換前の形（$\mathcal{L}_{\text{orig}} + g \bar{\psi} \gamma^\mu A_\mu \psi$）に戻るためには、括弧の中身が $-ig A_\mu$ になればよい。
+  すなわち、以下の等式が成立する必要がある。
+  \[
+  U^\dagger (\partial_\mu U) - ig U^\dagger A_\mu^\prime U = -ig A_\mu
+  \]
+  この式を、未知の場 $A_\mu^\prime$ について解く。
+  全体に左から $U$ を掛け、符号を整理すると、
+  \[
+  \begin{aligned}
+    (\partial_\mu U) - ig A_\mu^\prime U &= -ig U A_\mu \\
+    - ig A_\mu^\prime U &= -ig U A_\mu - (\partial_\mu U) \\
+    A_\mu^\prime U &= U A_\mu + \frac{1}{ig} (\partial_\mu U) \\
+    A_\mu^\prime &= U A_\mu U^\dagger - \frac{i}{g} (\partial_\mu U) U^\dagger
+  \end{aligned}
+  \]
+  この結果は以下のことを意味する。
+  「もし、新しく導入した場 $A_\mu$ が、上記のルールに従って変換してくれるならば、ラグランジアンから発生するゴミは完全に相殺され、ゲージ不変性が保たれる」
+  \[
+  \begin{aligned}
+    A_\mu \to A_\mu^\prime = U A_\mu U^\dagger - \frac{i}{g} (\partial_\mu U) U^\dagger\\
+  \Rightarrow \mathcal{L}_{\text{new}} \to \mathcal{L}_{\text{new}}^\prime = \mathcal{L}_{\text{new}}
+  \end{aligned}
+  \]
+  以上より、QuarkとGluonの相互作用を含むQCDのラグランジアン密度は以下のように与えられる。
+  \[
+  \mathcal{L}_{\text{QCD}} = \bar{\psi} (i\gamma^\mu D_\mu - m) \psi
+  \]
+  ここで、共変微分は以下のように定義される。
+  \[
+  D_\mu = \partial_\mu - ig A_\mu^a T_a
+  \]
+  これはつまり
+  \[
+  D_\mu = \partial_\mu - ig A_\mu^a \frac{\lambda_a}{2}
+  \]
+  である。
+
+  さらに、ラグランジアンがSU(3)の局所ゲージ対称性を持つためには、Gluon場自身の運動項も必要である。
+  そのために、$D_\mu\psi(x)$が
+  \[
+  D_\mu\psi(x) \to D_\mu^\prime \psi^\prime(x) = U(x) D_\mu \psi(x)
+  \]
+  というゲージ変換を満たす必要がある。
+  これを満たすために、共変微分同士の交換子を考える。
+  \[
+    D_\mu^\prime \psi^\prime(x) = \left[\partial_\mu - ig \frac{\lambda_a}{2} A_\mu^{a \prime}(x)\right] U(x) \psi(x) 
+  \]
+  せっかくなので共変性を活かして(展開してゴミを消して...)書き直すと、
+  \[
+   D_\mu^\prime \psi^\prime(x) = U(x) \left[\partial_\mu - ig \frac{\lambda_a}{2} A_\mu^{a}(x)\right] \psi(x)
+  \]
+  となる。
+  これは簡単に
+  \[
+  D_\mu^\prime \psi^\prime(x) = U(x) D_\mu \psi(x)
+  \]
+  であり、以下のような等式を満たす必要がある。
+  \[
+  \left[\partial_\mu - ig \frac{\lambda_a}{2} A_\mu^{a \prime}(x)\right] U(x) \psi(x) = U(x) \left[\partial_\mu - ig \frac{\lambda_a}{2} A_\mu^{a}(x)\right] \psi(x)
+  \]
+  これを展開すると、
+  右辺は
+  \[
+  U(x) \partial_\mu \psi(x) - ig U(x) \frac{\lambda_a}{2} A_\mu^{a}(x) \psi(x)
+  \]
+  となり、左辺は
+  \[
+  \partial_\mu U(x) \psi(x) + U(x) \partial_\mu \psi(x) - ig \frac{\lambda_a}{2} A_\mu^{a \prime}(x) U(x) \psi(x)
+  \]
+  となる。
+  これらを等式に代入し、整理すると、
+  \[
+  \partial_\mu U(x) \psi(x) - ig \frac{\lambda_a}{2} A_\mu^{a \prime}(x) U(x) \psi(x) = - ig U(x) \frac{\lambda_a}{2} A_\mu^{a}(x) \psi(x)
+  \]
+  となる。
+  ここで、両辺を $\psi(x)$ で割り、$\frac{\lambda_a}{2}$ でくくると、
+  \[
+  - ig A_\mu^{a \prime}(x) U(x) = - ig U(x) A_\mu^{a}(x) - \partial_\mu U(x)
+  \]
+  となる。
+  これを $A_\mu^{a \prime}(x)$ について解くと、
+  \[
+  A_\mu^{a \prime}(x) = U(x) A_\mu^{a}(x) U^\dagger(x) - \frac{i}{g} (\partial_\mu U(x)) U^\dagger(x)
+  \]
+  となり、前節で求めた変換則
+  \[
+  A_\mu^\prime = U A_\mu U^\dagger - \frac{i}{g} (\partial_\mu U) U^\dagger
+  \]
+  と一致する。
+  したがって、共変微分は以下のように定義される。
+  \[
+  D_\mu = \partial_\mu - ig A_\mu^a T_a
+  \]
+  ここで、$A_\mu^a$ はGluon場であり、$T_a$ はSU(3)の生成子である。
+
+  \subsection{Gluon場の運動項}
+  最後に、Gluon場自身の運動項を導入する。
+  QED（電磁気学）の類推から、場の強さのテンソル $F_{\mu\nu}$ を構成し、その2乗をラグランジアンに加えることが予想される。
+  しかし、QCDは非可換ゲージ理論であるため、単純な回転 ($\partial_\mu A_\nu - \partial_\nu A_\mu$) だけではゲージ共変性を持たない。
+
+  そこで、共変微分 $D_\mu$ の交換子（Commutator）を計算することで、非可換性を含んだ自然な場の強さを導出する。
+  共変微分の交換子をクォーク場 $\psi$ に作用させる。
+  \[
+  [D_\mu, D_\nu] \psi(x) = D_\mu (D_\nu \psi) - D_\nu (D_\mu \psi)
+  \]
+  定義 $D_\mu = \partial_\mu - ig A_\mu$ を代入して展開する。
+  第一項は、積の微分法に注意すると以下のようになる。
+  \[
+  \begin{aligned}
+    D_\mu (D_\nu \psi) &= (\partial_\mu - ig A_\mu) (\partial_\nu \psi - ig A_\nu \psi) \\
+    &= \partial_\mu \partial_\nu \psi - ig (\partial_\mu A_\nu) \psi - ig A_\nu (\partial_\mu \psi) - ig A_\mu (\partial_\nu \psi) + (ig)^2 A_\mu A_\nu \psi
+  \end{aligned}
+  \]
+  第二項（添字 $\mu, \nu$ を入れ替えたもの）を引き算すると、$\partial_\mu \partial_\nu \psi$ や $A_\nu (\partial_\mu \psi)$ などの項が相殺する。
+  残る項を整理すると、以下のようになる。
+  \[
+  \begin{aligned}
+    [D_\mu, D_\nu] \psi &= -ig (\partial_\mu A_\nu - \partial_\nu A_\mu) \psi + (ig)^2 (A_\mu A_\nu - A_\nu A_\mu) \psi \\
+    &= -ig \left( \partial_\mu A_\nu - \partial_\nu A_\mu - ig [A_\mu, A_\nu] \right) \psi
+  \end{aligned}
+  \]
+  ここで、括弧の中身を**グルーオンの場の強さ（Field Strength Tensor）** $F_{\mu\nu}$ と定義する。
+  \[
+  F_{\mu\nu} \equiv \partial_\mu A_\nu - \partial_\nu A_\mu - ig [A_\mu, A_\nu]
+  \]
+  すなわち、共変微分の交換子は場の強さと以下の関係にある。
+  \[
+  [D_\mu, D_\nu] = -ig F_{\mu\nu}
+  \]
+  ここで、$F_{\mu\nu}$ は行列値（Lie代数の元）であるため、成分表示 $F_{\mu\nu} = F_{\mu\nu}^a T_a$ を考える。
+  Lie代数の交換関係 $[T_a, T_b] = i f^{abc} T_c$ を用いると、
+  \[
+  -ig [A_\mu, A_\nu] = -ig A_\mu^a A_\nu^b [T_a, T_b] = g f^{abc} A_\mu^a A_\nu^b T_c
+  \]
+  となるため、各成分 $F_{\mu\nu}^a$ は以下のように書ける。
+  \[
+  F_{\mu\nu}^a = \partial_\mu A_\nu^a - \partial_\nu A_\mu^a + g f^{abc} A_\mu^b A_\nu^c
+  \]
+  第三項の存在により、グルーオン場は自己相互作用を持つことがわかる。
+
+  最後に、この $F_{\mu\nu}$ を用いてゲージ不変かつローレンツ不変なラグランジアン密度を構成する。
+  $F_{\mu\nu}$ はゲージ変換に対して $F_{\mu\nu}^\prime = U F_{\mu\nu} U^\dagger$ と変換するため、トレースを取ることで不変量を作ることができる。
+  ジェネレータの規格化条件 $\text{Tr}(T_a T_b) = \frac{1}{2}\delta_{ab}$ を用いると、
+  \[
+  \text{Tr}(F_{\mu\nu} F^{\mu\nu}) = F_{\mu\nu}^a F^{b \mu\nu} \text{Tr}(T_a T_b) = \frac{1}{2} F_{\mu\nu}^a F^{a \mu\nu}
+  \]
+  となる。
+  場の量子論における運動項の標準的な正規化（係数が $-1/4$）に合わせるため、グルーオン場のラグランジアン密度を以下のように定義する。
+  \[
+  \mathcal{L}_{\text{gauge}} = - \frac{1}{2} \text{Tr}(F_{\mu\nu} F^{\mu\nu}) = - \frac{1}{4} F_{\mu\nu}^a F^{a \mu\nu}
+  \]
+
+  \section{結論}
+  以上により、クォーク場とグルーオン場、およびそれらの相互作用を記述するQCDの完全なラグランジアン密度が導出された。
+  \[
+  \mathcal{L}_{\text{QCD}} = \bar{\psi} (i\gamma^\mu D_\mu - m) \psi - \frac{1}{4} F_{\mu\nu}^a F^{a \mu\nu}
+  \]
+  ここで、
+  \begin{itemize}
+    \item $D_\mu = \partial_\mu - ig A_\mu^a T_a$
+    \item $F_{\mu\nu}^a = \partial_\mu A_\nu^a - \partial_\nu A_\mu^a + g f^{abc} A_\mu^b A_\nu^c$
+  \end{itemize}
+  である。第一項はクォークの運動とグルーオンとの相互作用を、第二項はグルーオンの運動と自己相互作用（3点および4点相互作用）を表している。
+\end{document}
