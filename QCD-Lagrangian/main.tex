@@ -258,67 +258,139 @@
   A_\mu^\prime = U A_\mu U^\dagger - \frac{i}{g} (\partial_\mu U) U^\dagger
   \]
   と一致する。
-  したがって、共変微分は以下のように定義される。
+  したがって、共変微分は
   \[
   D_\mu = \partial_\mu - ig A_\mu^a T_a
   \]
+  され、ここで$D_\mu$の変換則は
+  \[
+  D_\mu^\prime= U(x) D_\mu U^\dagger(x)
+  \]
+  である。($\psi$を省いた形)
   ここで、$A_\mu^a$ はGluon場であり、$T_a$ はSU(3)の生成子である。
+  よって、ここまでのラグランジアンは以下のように記述される。
+  \[
+  \mathcal{L}_{\text{QCD}} = \bar{\psi}\left[i\gamma^\mu (D_\mu\psi) - m\psi\right]
+  \]
+  しかし、これはQuarkとGluonの相互作用のみを記述しており、Gluon場自身の運動項が含まれていない。
+  そこで、次節でGluon場の運動項を導入する。
 
   \subsection{Gluon場の運動項}
-  最後に、Gluon場自身の運動項を導入する。
-  QED（電磁気学）の類推から、場の強さのテンソル $F_{\mu\nu}$ を構成し、その2乗をラグランジアンに加えることが予想される。
-  しかし、QCDは非可換ゲージ理論であるため、単純な回転 ($\partial_\mu A_\nu - \partial_\nu A_\mu$) だけではゲージ共変性を持たない。
+  Gluon場自身の運動項を導入するためには、ゲージ不変な量を構成する必要がある。
+  そのために、共変微分の交換子を考える。
+  これは、$x \to \mu \to \nu \to x$ の閉じた無限小のループ(Lie群!)を表す。
+  具体的には、
+  \[
+  [D_\mu, D_\nu] \psi(x)
+  \]
+  を計算する。まず、共変微分
+  \[
+  D_\mu = \partial_\mu - ig A_\mu
+  \]
+  を用いると、
+  \[
+  \begin{aligned}
+  [D_\mu, D_\nu]
+  &= [\partial_\mu - ig A_\mu,\ \partial_\nu - ig A_\nu] \\
+  &= (\partial_\mu - ig A_\mu)(\partial_\nu - ig A_\nu) - (\partial_\nu - ig A_\nu)(\partial_\mu - ig A_\mu) \\
+  &= \partial_\mu \partial_\nu - ig \partial_\mu A_\nu - ig A_\mu \partial_\nu + g^2 A_\mu A_\nu \\
+  &\quad - \partial_\nu \partial_\mu + ig \partial_\nu A_\mu + ig A_\nu \partial_\mu - g^2 A_\nu A_\mu \\
+  &= -ig (\partial_\mu A_\nu - \partial_\nu A_\mu) - ig (A_\mu \partial_\nu - A_\nu \partial_\mu) + g^2 (A_\mu A_\nu - A_\nu A_\mu) \\
+  &= -ig(\partial_\mu A_\nu - \partial_\nu A_\mu) - g^2 [A_\mu, A_\nu]
+  \end{aligned}
+  \]
+  となる。
+  ここで、$A_\mu$ はLie代数の元(生成子の線形結合)であるため、
+  \[
+  A_\mu = A_\mu^a T_a
+  \]
+  と展開できる。
+  ここで、SU(3)生成子の交換関係
+  \[
+  [T_a, T_b] = i f^{abc} T_c
+  \]
+  を考える。ここで、$f^{abc}$ はSU(3)の構造定数である。
+  構造定数については、付録で詳しく説明する。
+  これを用いると、
+  \[
+  [A_\mu, A_\nu]
+  = A_\mu^a A_\nu^b [T_a, T_b]
+  = i f^{abc} A_\mu^a A_\nu^b T_c
+  \]
+  となる。
 
-  そこで、共変微分 $D_\mu$ の交換子（Commutator）を計算することで、非可換性を含んだ自然な場の強さを導出する。
-  共変微分の交換子をクォーク場 $\psi$ に作用させる。
-  \[
-  [D_\mu, D_\nu] \psi(x) = D_\mu (D_\nu \psi) - D_\nu (D_\mu \psi)
-  \]
-  定義 $D_\mu = \partial_\mu - ig A_\mu$ を代入して展開する。
-  第一項は、積の微分法に注意すると以下のようになる。
+  以上より、交換子は
   \[
   \begin{aligned}
-    D_\mu (D_\nu \psi) &= (\partial_\mu - ig A_\mu) (\partial_\nu \psi - ig A_\nu \psi) \\
-    &= \partial_\mu \partial_\nu \psi - ig (\partial_\mu A_\nu) \psi - ig A_\nu (\partial_\mu \psi) - ig A_\mu (\partial_\nu \psi) + (ig)^2 A_\mu A_\nu \psi
+  [D_\mu, D_\nu]
+  &= -ig (\partial_\mu A_\nu^a - \partial_\nu A_\mu^a) T_a - g^2 (i f^{abc} A_\mu^b A_\nu^c T_a) \\
+  &= -ig \left[ (\partial_\mu A_\nu^a - \partial_\nu A_\mu^a) + g f^{abc} A_\mu^b A_\nu^c \right] T_a \\
   \end{aligned}
   \]
-  第二項（添字 $\mu, \nu$ を入れ替えたもの）を引き算すると、$\partial_\mu \partial_\nu \psi$ や $A_\nu (\partial_\mu \psi)$ などの項が相殺する。
-  残る項を整理すると、以下のようになる。
+  と書け、ここで$[\cdot]$を$F_{\mu\nu}^a$と定義すると、
   \[
-  \begin{aligned}
-    [D_\mu, D_\nu] \psi &= -ig (\partial_\mu A_\nu - \partial_\nu A_\mu) \psi + (ig)^2 (A_\mu A_\nu - A_\nu A_\mu) \psi \\
-    &= -ig \left( \partial_\mu A_\nu - \partial_\nu A_\mu - ig [A_\mu, A_\nu] \right) \psi
-  \end{aligned}
+  [D_\mu, D_\nu] = -ig F_{\mu\nu}^a T_a
   \]
-  ここで、括弧の中身を**グルーオンの場の強さ（Field Strength Tensor）** $F_{\mu\nu}$ と定義する。
-  \[
-  F_{\mu\nu} \equiv \partial_\mu A_\nu - \partial_\nu A_\mu - ig [A_\mu, A_\nu]
-  \]
-  すなわち、共変微分の交換子は場の強さと以下の関係にある。
+  と表せる。
+  ここで、$F_{\mu\nu} = F_{\mu\nu}^a T_a$ とおくと、
   \[
   [D_\mu, D_\nu] = -ig F_{\mu\nu}
   \]
-  ここで、$F_{\mu\nu}$ は行列値（Lie代数の元）であるため、成分表示 $F_{\mu\nu} = F_{\mu\nu}^a T_a$ を考える。
-  Lie代数の交換関係 $[T_a, T_b] = i f^{abc} T_c$ を用いると、
+  となる。
+  ここで、$D_\mu$ の変換則
   \[
-  -ig [A_\mu, A_\nu] = -ig A_\mu^a A_\nu^b [T_a, T_b] = g f^{abc} A_\mu^a A_\nu^b T_c
+  D_\mu^\prime = U(x) D_\mu U^\dagger(x)
   \]
-  となるため、各成分 $F_{\mu\nu}^a$ は以下のように書ける。
+  を用いると、交換子の変換則は
+  \[
+  F_{\mu\nu} \to F_{\mu\nu}^\prime = U F_{\mu\nu} U^\dagger
+  \]
+  と変換するため、、$F_{\mu\nu}$ はゲージ変換に対して共変であることが分かる。
+  したがって、$F_{\mu\nu}$ を用いてゲージ不変量を構成することができる。
+  この時、matrix2scalarにしたいため、操作として$\mathrm{det}$、$\mathrm{Tr}$などが考えられる。
+  しかし、$SU(3)$であるため、Supecialの性質として、$\mathrm{det}(F_{\mu\nu}) = 1$ となり、スカラー量を得ることができない。
+  そこで、$\mathrm{Tr}$を用いる。
+  \[
+  \begin{aligned}
+    \text{Tr}(F_{\mu\nu}^\prime F^{\prime\mu\nu}) 
+    &= \text{Tr}(U F_{\mu\nu} U^\dagger U F^{\mu\nu} U^\dagger) \\
+    &= \text{Tr}(U F_{\mu\nu} F^{\mu\nu} U^\dagger) \\
+    &= \text{Tr}(F_{\mu\nu} F^{\mu\nu} U^\dagger U) \\
+    &= \text{Tr}(F_{\mu\nu} F^{\mu\nu})
+  \end{aligned}
+  \]
+  となる。
+  この時、単純に$\mathrm{Tr}(F^2)$を示しているが、アインシュタインの縮約を用いているため、$\mathrm{Tr}(F_{\mu\nu} F^{\mu\nu})$と示している。
+  ここで、トレースの巡回性（付録参照）を用いた。
+  さらに、トレースの中身を行列から成分表示 $F_{\mu\nu} = F_{\mu\nu}^a T_a$ に戻して計算すると、
+  \[
+    \mathrm{Tr}(F_{\mu\nu} F^{\mu\nu}) = F_{\mu\nu}^a F^{\mu\nu b} \mathrm{Tr}(T_a T_b)
+  \]
+  となる。生成子 $T_a = \lambda_a/2$ の定義と、Gell-Mann行列の性質 $\mathrm{Tr}(\lambda_a \lambda_b) = 2 \delta_{ab}$ （付録参照）を用いると、
+  \[
+  \begin{aligned}
+    \mathrm{Tr}(T_a T_b) &= \mathrm{Tr}\left(\frac{\lambda_a}{2} \frac{\lambda_b}{2}\right) 
+    = \frac{1}{4} \mathrm{Tr}(\lambda_a \lambda_b) \\
+    &= \frac{1}{4} \cdot 2 \delta_{ab} 
+    = \frac{1}{2} \delta_{ab}
+  \end{aligned}
+  \]
+  である。したがって、
+  \[
+  \mathrm{Tr}(F_{\mu\nu} F^{\mu\nu}) = \frac{1}{2} F_{\mu\nu}^a F^{a\mu\nu}
+  \]
+  が得られる。電磁気学（$U(1)$ ゲージ理論）との整合性から、成分表示におけるグルーオンの運動項の係数は $-1/4$ であることが望ましい。
+  以上の結果から、QCDのゲージ場のラグランジアン密度は以下のように定義される。
+  \[
+    \mathcal{L}_{\text{gauge}} = - \frac{1}{2}\mathrm{Tr}(F_{\mu\nu} F^{\mu\nu}) = - \frac{1}{4}F_{\mu\nu}^a F^{a\mu\nu}
+  \]
+  また、ここで$F_{\mu\nu}^a$ は場の強度テンソルであり、以下のように定義される。
   \[
   F_{\mu\nu}^a = \partial_\mu A_\nu^a - \partial_\nu A_\mu^a + g f^{abc} A_\mu^b A_\nu^c
   \]
-  第三項の存在により、グルーオン場は自己相互作用を持つことがわかる。
-
-  最後に、この $F_{\mu\nu}$ を用いてゲージ不変かつローレンツ不変なラグランジアン密度を構成する。
-  $F_{\mu\nu}$ はゲージ変換に対して $F_{\mu\nu}^\prime = U F_{\mu\nu} U^\dagger$ と変換するため、トレースを取ることで不変量を作ることができる。
-  ジェネレータの規格化条件 $\text{Tr}(T_a T_b) = \frac{1}{2}\delta_{ab}$ を用いると、
+  これにクォークの項を加え、連続理論におけるQCDのフルラグランジアン密度が完成する。
   \[
-  \text{Tr}(F_{\mu\nu} F^{\mu\nu}) = F_{\mu\nu}^a F^{b \mu\nu} \text{Tr}(T_a T_b) = \frac{1}{2} F_{\mu\nu}^a F^{a \mu\nu}
-  \]
-  となる。
-  場の量子論における運動項の標準的な正規化（係数が $-1/4$）に合わせるため、グルーオン場のラグランジアン密度を以下のように定義する。
-  \[
-  \mathcal{L}_{\text{gauge}} = - \frac{1}{2} \text{Tr}(F_{\mu\nu} F^{\mu\nu}) = - \frac{1}{4} F_{\mu\nu}^a F^{a \mu\nu}
+  \mathcal{L}_{\text{QCD}} = \bar{\psi}(i\gamma^\mu D_\mu - m)\psi - \frac{1}{2}\mathrm{Tr}(F_{\mu\nu} F^{\mu\nu})
   \]
 
   \section{結論}
@@ -332,4 +404,23 @@
     \item $F_{\mu\nu}^a = \partial_\mu A_\nu^a - \partial_\nu A_\mu^a + g f^{abc} A_\mu^b A_\nu^c$
   \end{itemize}
   である。第一項はクォークの運動とグルーオンとの相互作用を、第二項はグルーオンの運動と自己相互作用（3点および4点相互作用）を表している。
+
+  \section{付録}
+  \subsection{SU(3)の構造定数}
+    構造定数とは、Lie代数の生成子の交換関係を定義する実数のテンソルである。
+  直感的に言うのであれば、構造定数はLie群の「ねじれ」や「曲がり具合」を表す量である。
+  簡単に$SU(2)$で、$a=1,\quad b=2, \quad c=3$の場合を考えてみる。
+  \[
+  [T_1, T_2] = i f^{123} T_3
+  \]
+  ここで、$T_i = \frac{\sigma_i}{2}$ ($\sigma_i$はパウリ行列)であるため、
+  \[
+  \begin{aligned}
+  [T_1, T_2] &= \left[ \frac{1}{2}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \frac{1}{2}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} \right]\\
+  &= \frac{1}{4} \begin{pmatrix} i & 0 \\ 0 & -i \end{pmatrix} - \frac{1}{4} \begin{pmatrix} -i & 0 \\ 0 & i \end{pmatrix}\\
+  &= \frac{i}{2} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \\
+  &= iT_3 = i f^{123} T_3, \quad f^{123} = 1
+  \end{aligned}
+  \]
+  となる。
 \end{document}
