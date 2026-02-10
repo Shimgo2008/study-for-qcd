@@ -1,0 +1,168 @@
+\documentclass[aps,prd,twocolumn]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue]{hyperref}
+
+\newcommand{\Retr}{\mathrm{Retr}}
+
+
+\begin{document}
+
+\title{QCDのラグランジアンから格子QCDの作用への導出}
+
+\author{しん}
+\affiliation{
+% 所属
+}
+
+\date{\today}
+
+\begin{abstract}
+  本稿ではQCDのラグランジアンから格子QCDの作用を導出する過程について説明する。
+\end{abstract}
+
+\maketitle
+
+\section{lattice QCDの作用}
+はじめに、QCDのラグランジアンは以下のように与えられる。
+\begin{equation}
+\mathcal{L}_{QCD} = \bar{\psi}(i\gamma^\mu D_\mu - m)\psi - \frac{1}{4}F_{\mu\nu}^a F^{a\mu\nu}
+\end{equation}
+
+\subsection{連続理論の作用}
+\begin{equation}
+S = \int d^4x \, \mathcal{L}_{QCD}
+\label{eq:QCD_action}
+\end{equation}
+
+\subsection{格子の定義と積分和への変換}
+格子間隔を$a$とし、格子点を
+\begin{equation}
+x_\mu = n_\mu a \quad (n_{0\cdots\mu} \in \mathbb{Z})
+\end{equation}
+で定義する（以後$\hat\mu$は$\mu$方向の単位ベクトル）。このとき、積分は以下のように和に置き換えられる。
+\begin{equation}
+\int d^4x \rightarrow a^4 \sum_{n}
+\end{equation}
+より、作用は
+\begin{equation}
+S \to S_{lattice} = a^4 \sum_{n} \mathcal{L}_{QCD}(n)
+\end{equation}
+と離散化される。
+
+\subsection{ゲージ場：リンク変数とプラケット}
+格子上ではゲージ場はリンク変数
+\begin{equation}
+  U_\mu(x) \in SU(3), \quad \therefore U_\mu(x)=\exp\bigl( iag\,A_\mu(x+a\frac{\hat{\mu}}{2})\bigr)
+\end{equation}
+で表される。
+これは、格子点$x$から$x+a\hat{\mu}$へのリンクに対応する。
+ここで$iagA_\mu$はSU(3)の生成子に展開される。
+$A_\mu(x)$はゲージ場であり、$g$は結合定数である。
+また、$(x+a\frac{\hat{\mu}}{2})$はリンクの中点を表す。
+次にプラケットは、
+\begin{equation}
+  U_{\mu\nu}(x) = U_\mu(x) U_\nu(x+a\hat{\mu}) U_\mu^\dagger(x+a\hat{\nu}) U_\nu^\dagger(x)
+\label{eq:plaquette}
+\end{equation}
+で定義される。プラケットとは格子上の最小の閉じたループであり、ゲージ場の曲率を表す。
+これは$x \to \mu \to \mu\nu \to \nu \to x$の閉じた周回を表す。
+これは、テイラー展開により
+\begin{equation}
+  U_{\mu\nu}(x)=\exp\bigl(i a^2 g F_{\mu\nu}(x)+\mathcal{O}(a^3)\bigr)
+\end{equation}
+と表され、$F_{\mu\nu}$は場の強さテンソルである。
+
+\subsection{格子QCDの作用の導出}
+格子QCDの作用は、ウィルソン作用として知られている。
+導出は付録に示すが、結果は以下の通りである。
+\begin{equation}
+S_{lattice} = \beta \sum_{x,\mu<\nu} \left(1 - \frac{1}{3}\Retr U_{\mu\nu}(x)\right)
+\end{equation}
+一般に、$\beta = \frac{6}{g^2}$である。
+$\mu<\nu$は各プラケットを一度だけ数えるための条件である。これを$$\mu, \nu$$と示してしまうと、各プラケットが二度数えられてしまう。
+
+\section{lattice QCDにおけるフェルミオン}
+格子QCDにおけるフェルミオンの取り扱いは、wilsonフェルミオンやstaggeredフェルミオンなど、いくつかの方法が存在する。
+
+\begin{itemize}
+  \item Wilsonフェルミオン: フェルミオンのダブリング問題を解決するために、ウィルソン項を導入する方法。
+  \item Staggeredフェルミオン: フェルミオンの自由度を減らし、計算コストを削減する方法。
+  \item Domain Wallフェルミオン: 5次元格子を用いて、カイラル対称性を保つ方法。
+  \item Overlapフェルミオン: カイラル対称性を厳密に保つ方法。
+\end{itemize}
+今回はWilsonフェルミオンについて簡単に説明する。
+Wilsonフェルミオンの作用は以下のように与えられる。
+\begin{equation}
+\begin{split}
+  S_F &= a^4 \sum_{x} \bar{\psi}(x) \left( m + \frac{4r}{a} \right) \psi(x) \\
+  &- \frac{a^3}{2} \sum_{x, \mu} \left[ \bar{\psi}(x) (r - \gamma_\mu) U_\mu(x) \psi(x + a\hat{\mu}) \right. \\
+  &\quad + \left. \bar{\psi}(x + a\hat{\mu}) (r + \gamma_\mu) U_\mu^\dagger(x) \psi(x) \right]
+\end{split}
+\end{equation}
+ここで、$r$はウィルソンパラメータであり、通常$r=1$と設定される。
+\clearpage
+
+\section{付録 wilson作用の導出}
+ウィルソン作用の導出は以下の通りである。
+まず、場の強さテンソル$F_{\mu\nu}$は
+\begin{equation}
+F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu - i g [A_\mu, A_\nu]
+\end{equation}
+で定義される。格子上では、$F_{\mu\nu}$はプラケット$U_{\mu\nu}$式\eqref{eq:plaquette}を用いて近似される。
+テイラー展開により、
+\begin{equation}
+U_{\mu\nu}(x) = \exp\left( i a^2 g F_{\mu\nu}(x) + \mathcal{O}(a^3) \right)
+\end{equation}
+が得られる。
+次に、作用について解きたいため、$U_{\mu\nu}$のトレースを計算し、無次元化する。
+また、$U_{\mu\nu}$はユニタリ行列であるため、複素数を含むが、複素数の作用は定義できないため、実部を取る。
+\begin{equation}
+\Retr U_{\mu\nu}(x) = \Retr \exp\left( i a^2 g F_{\mu\nu}(x) + \mathcal{O}(a^3) \right)
+\end{equation}
+これをテイラー展開すると、
+\begin{equation}
+\Retr \left( 1 + i a^2 g F_{\mu\nu}(x) - \frac{a^4 g^2}{2} F_{\mu\nu}^2(x) + \mathcal{O}(a^6) \right)
+\end{equation}
+となる。ここで、$F_{\mu\nu}$はSU(3)の生成子に展開されるため、$\Retr F_{\mu\nu} = 0$であることを利用すると1次の項が消えるため、
+\begin{equation}
+\Retr U_{\mu\nu}(x) = \Retr \left( 1 - \frac{a^4 g^2}{2} F_{\mu\nu}^2(x) + \mathcal{O}(a^6) \right)
+\end{equation}
+となる。さらに、ここでの$1$は$3 \times 3$の単位行列であるため、$\Retr 1 = 3$であることを利用すると、
+\begin{equation}
+\Retr U_{\mu\nu}(x) = 3 - \frac{a^4 g^2}{2} \Retr (F_{\mu\nu}^2(x)) + \mathcal{O}(a^6)
+\end{equation}
+が得られる。
+ここで、定数項$3$は作用に寄与しないため、$\Retr U_{\mu\nu}(x)$から引く。
+その時、$1$に対する偏差として表すため、
+\begin{equation}
+1 - \frac{1}{3} \Retr U_{\mu\nu}(x) \approx \frac{a^4 g^2}{6} \Retr (F_{\mu\nu}^2(x))
+\end{equation}
+と整理される。
+これを作用式\eqref{eq:QCD_action}に代入すると、
+\begin{equation}
+S = \int d^4x \, \mathcal{L}_{QCD} \approx \frac{1}{4} \int d^4x \, F_{\mu\nu}^a F^{a\mu\nu}
+\end{equation}
+となる。これを格子上に離散化すると、
+\begin{equation}
+S_{lattice} = \beta \sum_{x,\mu<\nu} \left(1 - \frac{1}{3}\Retr U_{\mu\nu}(x)\right)
+\end{equation}
+が得られる。
+ここで、$\beta$は以下のように定義される。
+$\mathcal{L}_{\text{gauge}} = \frac{1}{4} F_{\mu\nu}^a F^{a\mu\nu}$の係数を一致させるためである。
+実際に
+\begin{equation}
+\beta \cdot \frac{a^4 g^2}{6} = \frac{1}{4} a^4
+\end{equation}
+であるため、
+\begin{equation}
+\beta = \frac{6}{g^2}
+\end{equation}
+が得られる。
+
+
+\end{document}
